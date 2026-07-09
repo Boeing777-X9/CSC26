@@ -3,7 +3,7 @@
 ## Getting Started
 
 If you have Docker installed, this is the easiest way to run it:
-If you dont have docker installed☺️, then DOWNLOAD IT😡 (Regards Boeing 777-9)
+If you dont have docker installed☺️, then DOWNLOAD IT😡 hehe (Regards Boeing 777-9)
 
 If docker is installed
 ```bash
