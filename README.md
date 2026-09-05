@@ -1,4 +1,4 @@
-# Novus
+# CSC26
 
 ## Getting Started
 
