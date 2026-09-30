@@ -1,25 +1,16 @@
-# CSC26
+# React + Vite
 
-## Getting Started
+This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
-If you have Docker installed, this is the easiest way to run it:
-If you dont have docker installed☺️, then DOWNLOAD IT😡 hehe (Regards Boeing 777-9)
+Currently, two official plugins are available:
 
-If docker is installed
-```bash
-docker build -t novus .
-docker run -p 3000:3000 novus
-```
-Then just open http://localhost:3000 in your browser.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
+## React Compiler
 
-If you would rather run it without Docker, which i dont suggest then
-```bash
-npm install
-npm run dev
-```
-Same thing, go to http://localhost:3000 and you're good.
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Requirements
-- Node.js 
-- Docker (only if you're using the Docker method)
+## Expanding the Oxlint configuration
+
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
