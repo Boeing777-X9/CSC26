@@ -1,3 +1,80 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --background: #090a0f;
+  --foreground: #f8fafc;
+  --csc-orange: #ff7900;
+  --csc-silver: #cbd5e1;
+}
+
+body {
+  color: var(--foreground);
+  background-color: var(--background);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(255, 121, 0, 0.08) 0%, transparent 60%),
+    radial-gradient(circle at 90% 80%, rgba(255, 121, 0, 0.04) 0%, transparent 40%);
+  background-attachment: fixed;
+}
+
+/* Custom Cyber Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #090a0f;
+}
+::-webkit-scrollbar-thumb {
+  background: #282d3d;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ff7900;
+}
+
+/* Cyber Grid Background Pattern */
+.bg-cyber-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+.bg-cyber-dots {
+  background-size: 24px 24px;
+  background-image: radial-gradient(rgba(255, 121, 0, 0.15) 1px, transparent 1px);
+}
+
+/* Text Gradient Utilities */
+.text-gradient-orange {
+  background: linear-gradient(135deg, #ffffff 0%, #ff9533 50%, #ff7900 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-silver {
+  background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 60%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Cyber Border Glow */
+.cyber-border-glow {
+  box-shadow: 0 0 20px -5px rgba(255, 121, 0, 0.3);
+}
+
+.cyber-card {
+  background: rgba(22, 25, 34, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cyber-card:hover {
+  border-color: rgba(255, 121, 0, 0.4);
+  box-shadow: 0 8px 30px -10px rgba(255, 121, 0, 0.25);
+  transform: translateY(-2px);
+}
