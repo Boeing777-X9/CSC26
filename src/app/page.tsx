@@ -9,8 +9,9 @@ import DrawLineText from "@/components/ui/draw-line-text";
 import NetworkLearnBuild from "@/components/home/NetworkLearnBuild";
 import AboutUs from "@/components/home/AboutUs";
 import WhatIsCyberSec from "@/components/home/WhatIsCyberSec";
+import CyberDomains from "@/components/home/CyberDomains";
 import LoginTransition from "@/components/auth/LoginTransition";
-import { Calendar, Lock } from "lucide-react";
+import { Calendar, Lock, ArrowRight } from "lucide-react";
 
 // Dynamic import for WebGL and Canvas heavy components to speed up initial page load
 const BlackHoleHeroSection = dynamic(
@@ -108,7 +109,7 @@ export default function HomePage() {
             </Link>
 
             <LoginTransition>
-              <div className="inline-flex items-center gap-2.5 rounded-full border border-zinc-700 bg-zinc-950/80 px-7 py-3.5 font-sans text-sm font-semibold text-white transition-all duration-300 hover:border-[#FF8C32] hover:text-[#FF8C32] backdrop-blur-md">
+              <div className="inline-flex items-center gap-2.5 rounded-full border border-zinc-700 bg-zinc-950/80 px-7 py-3.5 font-sans text-sm font-semibold text-white transition-all duration-300 hover:border-[#FF8C32] hover:text-[#FF8C32] backdrop-blur-md cursor-pointer">
                 <Lock className="h-4 w-4 text-[#FF8C32]" />
                 <span>Member Login</span>
               </div>
@@ -120,17 +121,20 @@ export default function HomePage() {
         </motion.div>
       </section>
 
-      {/* 3. About Us Section (Pic 3) */}
+      {/* 3. About Us Section */}
       <div className="relative z-10">
         <AboutUs />
       </div>
 
-      {/* 4. What is Cyber Security? Section (Pic 4) */}
+      {/* 4. Cyber Specializations & Stats Section (Ojash's features merged) */}
+      <CyberDomains />
+
+      {/* 5. What is Cyber Security? Section */}
       <div className="relative z-10">
         <WhatIsCyberSec />
       </div>
 
-      {/* 5. DriftWall Photo Gallery Section (ABOVE Footer, BELOW What is Cyber Security) */}
+      {/* 6. DriftWall Photo Gallery Section (ABOVE Footer, BELOW What is Cyber Security) */}
       <section className="relative z-10 w-full bg-black/60 backdrop-blur-sm py-20 border-t border-zinc-800/40">
         <div className="mx-auto max-w-6xl px-6 mb-10 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-[#FF8C32]/40 bg-[#FF8C32]/10 px-4 py-1.5 font-sans text-xs font-bold text-[#FF8C32] mb-3">
@@ -142,6 +146,15 @@ export default function HomePage() {
           <p className="mt-3 font-sans text-sm text-zinc-300 sm:text-base">
             Hover over the interactive drifting photo wall to explore our campus events, CTFs, and meetups.
           </p>
+          <div className="mt-6">
+            <Link
+              href="/gallery"
+              className="inline-flex items-center gap-2 rounded-full border border-[#FF8C32] bg-[#FF8C32]/10 px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-[#FF8C32] transition-all hover:bg-[#FF8C32] hover:text-black"
+            >
+              <span>View Full Interactive Gallery</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
 
         <div className="w-full h-[580px] relative overflow-hidden">
