@@ -1,5 +1,6 @@
 import React from "react";
 import { Shield, Lock, Server, Database } from "lucide-react";
+import MatrixCode from "@/components/ui/MatrixCode";
 
 export default function WhatIsCyberSec() {
   return (
@@ -62,16 +63,20 @@ export default function WhatIsCyberSec() {
             </div>
           </div>
 
-          {/* Right Column: Hooded Hacker Image with Orange Glow Frame */}
+          {/* Right Column: Binary Rain (0 1) Stream inside Orange Glow Frame */}
           <div className="flex justify-center lg:col-span-5">
             <div className="relative w-full max-w-md overflow-hidden rounded-2xl border-2 border-[#FF8C32] p-1 shadow-[0_0_30px_rgba(255,140,50,0.3)]">
-              {/* High Quality Hooded Hacker Image */}
-              <img
-                src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1000&auto=format&fit=crop"
-                alt="Cyber Security Hacker"
-                className="w-full h-80 object-cover rounded-xl"
+              <MatrixCode
+                mode="binary"
+                speed="slow"
+                color="#00FF41"
+                headColor="#70FF99"
+                fontSize={15}
+                colGap={18}
+                rowGap={4}
+                className="w-full h-80 rounded-xl"
               />
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
             </div>
           </div>
         </div>
