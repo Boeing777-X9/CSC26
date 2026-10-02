@@ -93,6 +93,14 @@ function FlipCard({ name, role, photo, linkedin, github, instagram, quote, disab
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
+
+    // Suppress 3D tilt when hovering near or over social link buttons
+    if (e.target && (e.target as HTMLElement).closest('[data-no-flip="true"]')) {
+      setRotateX(0);
+      setRotateY(0);
+      return;
+    }
+
     const rect = cardRef.current.getBoundingClientRect();
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
@@ -110,39 +118,42 @@ function FlipCard({ name, role, photo, linkedin, github, instagram, quote, disab
   };
 
   const frontContent = (
-    <div className="relative w-full h-full bg-[#0a0a0f] flex flex-col justify-end overflow-hidden rounded-2xl">
+    <div className="relative w-full h-full bg-neutral-950/70 backdrop-blur-xl flex flex-col justify-end overflow-hidden rounded-2xl border border-white/15 group-hover:border-orange-500/60 shadow-[0_8px_32px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.2)] transition-all duration-300">
+      {/* Specular Glass Sheen Highlight */}
+      <div className="absolute top-0 inset-x-0 h-1/2 bg-gradient-to-b from-white/15 via-white/5 to-transparent pointer-events-none z-10" />
+
       {/* Background Member Photo */}
       <div className="absolute inset-0 w-full h-full">
         {showPhoto ? (
           <img src={photo} alt={name} onError={() => setImgFailed(true)} className="w-full h-full object-cover" />
         ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-neutral-900 to-[#0a0a0f]">
-            <span className="text-4xl text-orange-500/50">👤</span>
+          <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-white/10 via-neutral-900/80 to-[#0a0a0f]">
+            <span className="text-4xl text-orange-500/60">👤</span>
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
       </div>
 
       {/* Member Details Overlay */}
-      <div className="relative z-10 p-5 space-y-1 text-left">
-        <div className="text-base font-bold text-white group-hover:text-orange-400 transition-colors">{name}</div>
+      <div className="relative z-20 p-5 space-y-1 text-left backdrop-blur-[2px]">
+        <div className="text-base font-bold text-white group-hover:text-orange-400 transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">{name}</div>
         <div className="w-8 h-[2px] bg-gradient-to-r from-[#ff7900] to-amber-300 rounded-full" />
         <div className="text-[10px] uppercase tracking-widest text-slate-300 font-mono">{role}</div>
         
         {hasLinks && (
-          <div className="flex gap-1.5 pt-2">
+          <div data-no-flip="true" className="flex gap-1.5 pt-2 relative z-30 pointer-events-auto">
             {safeLinkedin && (
-              <a href={safeLinkedin} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="p-1.5 rounded-md bg-white/10 hover:bg-[#ff7900] hover:text-black transition-colors text-white">
+              <a data-no-flip="true" href={safeLinkedin} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="p-1.5 rounded-md bg-white/15 hover:bg-[#ff7900] hover:text-black transition-colors text-white backdrop-blur-md border border-white/10">
                 <LinkedInIcon />
               </a>
             )}
             {safeGithub && (
-              <a href={safeGithub} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="p-1.5 rounded-md bg-white/10 hover:bg-[#ff7900] hover:text-black transition-colors text-white">
+              <a data-no-flip="true" href={safeGithub} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="p-1.5 rounded-md bg-white/15 hover:bg-[#ff7900] hover:text-black transition-colors text-white backdrop-blur-md border border-white/10">
                 <GitHubIcon />
               </a>
             )}
             {safeInstagram && (
-              <a href={safeInstagram} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="p-1.5 rounded-md bg-white/10 hover:bg-[#ff7900] hover:text-black transition-colors text-white">
+              <a data-no-flip="true" href={safeInstagram} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="p-1.5 rounded-md bg-white/15 hover:bg-[#ff7900] hover:text-black transition-colors text-white backdrop-blur-md border border-white/10">
                 <InstagramIcon />
               </a>
             )}
@@ -166,7 +177,7 @@ function FlipCard({ name, role, photo, linkedin, github, instagram, quote, disab
           transition: "transform 0.1s ease-out",
         }}
       >
-        <div className="w-full h-full rounded-2xl border border-orange-500/30 overflow-hidden shadow-2xl bg-[#0f0f14]">
+        <div className="w-full h-full rounded-2xl border border-white/20 hover:border-orange-500/60 overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.2)] transition-all duration-300 bg-neutral-950/70 backdrop-blur-xl">
           {frontContent}
         </div>
       </div>
@@ -174,22 +185,25 @@ function FlipCard({ name, role, photo, linkedin, github, instagram, quote, disab
   }
 
   const backContent = (
-    <div className="w-full h-full bg-gradient-to-br from-[#161922] via-[#0d0e15] to-[#090a0f] p-5 flex flex-col items-center justify-between text-center border border-[#ff7900]/40 shadow-inner rounded-2xl select-none">
-      <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold text-[#ff7900] uppercase tracking-widest pt-1">
+    <div className="w-full h-full bg-gradient-to-br from-white/15 via-[#0d0e15]/90 to-black/95 backdrop-blur-2xl p-5 flex flex-col items-center justify-between text-center border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,255,255,0.3)] rounded-2xl select-none relative overflow-hidden">
+      {/* Specular Glass Sheen Highlight */}
+      <div className="absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-white/20 via-white/5 to-transparent pointer-events-none" />
+
+      <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold text-[#ff7900] uppercase tracking-widest pt-1 relative z-10">
         <span>MEMBER WORDS</span>
       </div>
 
-      <div className="space-y-1.5 px-1 my-auto flex flex-col items-center justify-center">
-        <span className="text-2xl text-[#ff7900] font-serif leading-none">“</span>
-        <p className="text-xs italic text-slate-200 leading-relaxed font-serif px-1 max-h-[140px] overflow-y-auto">
+      <div className="space-y-1.5 px-1 my-auto flex flex-col items-center justify-center relative z-10">
+        <span className="text-2xl text-[#ff7900] font-serif leading-none drop-shadow-[0_0_8px_rgba(255,121,0,0.4)]">“</span>
+        <p className="text-xs italic text-slate-100 leading-relaxed font-serif px-1 max-h-[140px] overflow-y-auto">
           {cleanQuote}
         </p>
-        <span className="text-2xl text-[#ff7900] font-serif leading-none">”</span>
+        <span className="text-2xl text-[#ff7900] font-serif leading-none drop-shadow-[0_0_8px_rgba(255,121,0,0.4)]">”</span>
       </div>
 
-      <div className="pb-1 flex flex-col items-center gap-0.5">
+      <div className="pb-1 flex flex-col items-center gap-0.5 relative z-10">
         <div className="text-xs font-bold text-white font-mono tracking-wider">{name}</div>
-        <div className="text-[9px] uppercase tracking-widest text-slate-400 font-mono">{role}</div>
+        <div className="text-[9px] uppercase tracking-widest text-slate-300 font-mono">{role}</div>
       </div>
     </div>
   );
@@ -214,7 +228,7 @@ function FlipCard({ name, role, photo, linkedin, github, instagram, quote, disab
         pixelColor="#ff7900"
         animationStepDuration={0.4}
         aspectRatio="0"
-        className="w-full h-full rounded-2xl border border-orange-500/30 overflow-hidden shadow-2xl bg-[#0f0f14]"
+        className="w-full h-full rounded-2xl border border-white/20 hover:border-orange-500/60 overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.2)] bg-neutral-950/70 backdrop-blur-xl transition-all duration-300"
       />
     </div>
   );
@@ -313,28 +327,28 @@ export default function TeamPage() {
   const execRest = execBoard.slice(2);
 
   return (
-    <div className="relative w-full pt-[120px] pb-20 text-[#eeeeee] overflow-x-hidden bg-[#0a0a0a] selection:bg-orange-500/30 selection:text-orange-200">
+    <div className="relative w-full pt-[120px] pb-20 text-[#eeeeee] overflow-x-hidden bg-transparent selection:bg-orange-500/30 selection:text-orange-200">
       
       {/* Background Ambient Glows */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-gradient-to-b from-orange-500/15 via-amber-600/5 to-transparent rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute top-[35%] left-[-250px] w-[650px] h-[650px] bg-orange-600/10 rounded-full blur-[160px] pointer-events-none" />
-      <div className="absolute top-[65%] right-[-250px] w-[650px] h-[650px] bg-orange-500/10 rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-gradient-to-b from-orange-500/20 via-amber-600/10 to-transparent rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-[35%] left-[-250px] w-[650px] h-[650px] bg-orange-600/15 rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute top-[65%] right-[-250px] w-[650px] h-[650px] bg-orange-500/15 rounded-full blur-[160px] pointer-events-none" />
 
       <div className="relative z-10 flex flex-col gap-24 justify-center items-center max-w-[1440px] mx-auto px-4 md:px-8">
         
         {/* Main Header */}
         <div className="flex flex-col justify-center items-center w-full my-8 relative">
-          <div className="absolute inset-0 bg-orange-500/10 blur-3xl rounded-full scale-75 pointer-events-none" />
-          <h1 className="text-5xl sm:text-7xl md:text-8xl font-black text-center tracking-tighter text-white drop-shadow-[0_0_30px_rgba(249,115,22,0.3)]">
-            BEHIND THE <span className="bg-gradient-to-r from-orange-500 to-amber-300 bg-clip-text text-transparent">SCENES</span>
+          <div className="absolute inset-0 bg-orange-500/15 blur-3xl rounded-full scale-75 pointer-events-none" />
+          <h1 className="text-5xl sm:text-7xl md:text-8xl font-black text-center tracking-tighter text-white drop-shadow-[0_0_35px_rgba(249,115,22,0.4)]">
+            BEHIND THE <span className="bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500 bg-clip-text text-transparent">SCENES</span>
           </h1>
-          <p className="mt-4 text-slate-400 text-sm sm:text-base md:text-lg font-medium tracking-[0.2em] uppercase text-center">
+          <p className="mt-4 text-slate-300 text-sm sm:text-base md:text-lg font-medium tracking-[0.2em] uppercase text-center">
             The minds powering CyberSpace Club
           </p>
         </div>
 
         {/* 1. Faculty Coordinators */}
-        <div className="relative flex flex-col items-center w-full p-8 md:p-12 rounded-3xl bg-neutral-900/60 border border-orange-500/20 backdrop-blur-xl shadow-[0_0_40px_rgba(0,0,0,0.8)]">
+        <div className="relative flex flex-col items-center w-full p-8 md:p-12 rounded-3xl bg-neutral-950/40 border border-white/10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,255,255,0.15)]">
           <SectionHeader title="Faculty Coordinators" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full justify-items-center">
             {teamData["Faculty Coordinators"].map((member, i) => (
@@ -346,7 +360,7 @@ export default function TeamPage() {
         </div>
 
         {/* 2. DSW */}
-        <div className="relative flex flex-col items-center w-full p-8 md:p-12 rounded-3xl bg-neutral-900/60 border border-orange-500/20 backdrop-blur-xl shadow-[0_0_40px_rgba(0,0,0,0.8)]">
+        <div className="relative flex flex-col items-center w-full p-8 md:p-12 rounded-3xl bg-neutral-950/40 border border-white/10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,255,255,0.15)]">
           <SectionHeader title="Directorate of Student's Welfare" />
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 w-full justify-items-center">
             {teamData["DSW"].map((member, i) => (
@@ -358,7 +372,7 @@ export default function TeamPage() {
         </div>
 
         {/* 3. Executive Board */}
-        <div className="relative flex flex-col items-center w-full my-4 p-8 md:p-12 rounded-3xl bg-gradient-to-b from-orange-500/10 via-neutral-900/80 to-black border border-orange-500/40 backdrop-blur-xl shadow-[0_0_50px_rgba(249,115,22,0.1)]">
+        <div className="relative flex flex-col items-center w-full my-4 p-8 md:p-12 rounded-3xl bg-gradient-to-b from-orange-500/15 via-neutral-950/60 to-black/80 border border-orange-500/30 backdrop-blur-2xl shadow-[0_8px_40px_rgba(249,115,22,0.15),inset_0_1px_1px_rgba(255,255,255,0.2)]">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-[2px] bg-gradient-to-r from-transparent via-orange-500 to-transparent rounded-full" />
           <SectionHeader title="Executive Board" />
 

@@ -89,13 +89,29 @@ function PixelTransition({
     });
   };
 
-  const handleEnter = () => {
+  const handleEnter = e => {
+    if (e?.target?.closest && e.target.closest('[data-no-flip="true"]')) {
+      if (isActive && !once) animatePixels(false);
+      return;
+    }
     if (!isActive) animatePixels(true);
   };
+
+  const handleMouseMove = e => {
+    if (e?.target?.closest && e.target.closest('[data-no-flip="true"]')) {
+      if (isActive && !once) animatePixels(false);
+    }
+  };
+
   const handleLeave = () => {
     if (isActive && !once) animatePixels(false);
   };
-  const handleClick = () => {
+
+  const handleClick = e => {
+    if (e?.target?.closest && e.target.closest('[data-no-flip="true"]')) {
+      if (isActive && !once) animatePixels(false);
+      return;
+    }
     if (!isActive) animatePixels(true);
     else if (isActive && !once) animatePixels(false);
   };
@@ -106,6 +122,7 @@ function PixelTransition({
       className={`pixelated-image-card ${className}`}
       style={style}
       onMouseEnter={handleEnter}
+      onMouseMove={handleMouseMove}
       onMouseLeave={handleLeave}
       onClick={handleClick}
       onFocus={handleEnter}
