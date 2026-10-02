@@ -3,6 +3,7 @@
 import React, { useState, useRef } from "react";
 import PixelTransition from "@/components/ui/PixelTransition";
 import "@/app/globals.css";
+import ParticleTextEffect from "@/components/ui/particle-text-effect";
 
 /* ──────────────────────────────────────────────────
    TYPES & INTERFACES
@@ -61,14 +62,12 @@ const sanitizeUrl = (type: "linkedin" | "instagram" | "github", value?: string):
 };
 
 /* ──────────────────────────────────────────────────
-   REUSABLE SECTION HEADER
+   REUSABLE SECTION HEADER WITH PARTICLE TEXT EFFECT
 ────────────────────────────────────────────────── */
 const SectionHeader = ({ title }: { title: string }) => (
-  <div className="relative mb-12 w-full flex flex-col items-center">
-    <h2 className="text-3xl sm:text-4xl md:text-5xl text-center tracking-tight font-extrabold uppercase bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500 bg-clip-text text-transparent drop-shadow-[0_4px_10px_rgba(249,115,22,0.2)]">
-      {title}
-    </h2>
-    <div className="h-[2px] w-24 mx-auto mt-4 bg-gradient-to-r from-transparent via-orange-500 to-transparent rounded-full" />
+  <div className="relative mb-8 w-full flex flex-col items-center justify-center">
+    <ParticleTextEffect text={title} />
+    <div className="h-[2px] w-28 mx-auto -mt-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent rounded-full" />
   </div>
 );
 
@@ -286,9 +285,7 @@ const teamData: Record<string, TeamMember[]> = {
   "Joint Heads": [
     { name: "Jyothi Anand", post: "Joint Head of Events", quote: "We are the masters of our fate and the captains of our souls", linkedin: "https://www.linkedin.com/in/jyothi-a-6884163b9", photo: "" },
     { name: "Yash Yadav", post: "Joint Head of Events", quote: "Stay curious. Keep building", linkedin: "https://www.linkedin.com/in/yash-yadav-28566b3a9", instagram: "https://www.instagram.com/yashyadav_6", photo: "" },
-    { name: "Vyom Agarwal", post: "Events Team", quote: "Hi, I’m Vyom Agarwal, a B.Tech Computer Science and Engineering student, with a growing interest in technology and its ability to solve real-world problems.", linkedin: "https://www.linkedin.com/in/vyom-agarwal-b18049378", instagram: "https://www.instagram.com/vyom_agarwal_", photo: "" },
-    { name: "Manvith Bollu", post: "Events Team", quote: "Don’t overthink, just act", instagram: "https://www.instagram.com/manu_10186", photo: "" },
-    { name: "Priyansh Agarwal", post: "Joint Head of Programs", quote: "Turning ideas into experiences, one program at a time. Building, leading, and creating with the Cyber Space Club.", linkedin: "https://www.linkedin.com/in/priyansh-agarwal-512999365", photo: "" },
+    { name: "Priyansh Agarwal", post: "Joint Head of Programs", quote: "Turning ideas into experiences, one program at a time. Building, leading, and creating with the CYBER SPACE CLUB.", linkedin: "https://www.linkedin.com/in/priyansh-agarwal-512999365", photo: "" },
     { name: "Harshit Dubey", post: "Joint Head of Programs", quote: "Tech in my mind, creativity in my lens, and leadership in everything I do.", linkedin: "https://www.linkedin.com/in/harshit-dubey-03073339b", instagram: "https://www.instagram.com/hars4t", photo: "" },
     { name: "Snehal Singh", post: "Joint Head of Programs", quote: "Don't stress do your best forget the rest", instagram: "https://www.instagram.com/tanusingh_0205", photo: "" },
     { name: "Samyukta Basu", post: "Joint Head of Marketing", quote: "Building, exploring, and leaving a little room for the unexpected.", linkedin: "https://www.linkedin.com/in/samyukta-basu-79656329a", instagram: "https://www.instagram.com/_samyukta__", photo: "" },

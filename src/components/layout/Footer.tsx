@@ -139,7 +139,7 @@ export default function Footer() {
 
         {/* Bottom Copyright & Admin link */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-sans text-xs text-zinc-400">
-          <p>© {new Date().getFullYear()} Cyber Space Club, MUJ. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} CYBER SPACE CLUB, MUJ. All rights reserved.</p>
           <div className="flex gap-4">
             <Link href="/docs" className="hover:underline">Documentation</Link>
             <Link href="/admin" className="hover:underline">Admin Portal</Link>

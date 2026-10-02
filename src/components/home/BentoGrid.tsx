@@ -23,7 +23,7 @@ export const BentoGrid: React.FC = () => {
   const [decrypted, setDecrypted] = useState(false);
 
   const handleDecrypt = () => {
-    setEncryptedText("CYBERSPACE CLUB (CSC MUJ)");
+    setEncryptedText("CYBER SPACE CLUB (CSC MUJ)");
     setDecrypted(true);
   };
 
@@ -38,7 +38,7 @@ export const BentoGrid: React.FC = () => {
           Built for Security Engineers
         </h2>
         <p className="text-slate-400 text-base">
-          Discover why CyberSpace Club is the leading technical organization at Manipal University Jaipur.
+          Discover why CYBER SPACE CLUB is the leading technical organization at Manipal University Jaipur.
         </p>
       </div>
 

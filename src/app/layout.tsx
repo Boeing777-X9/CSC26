@@ -5,9 +5,11 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
-  title: "CyberSpace Club | Manipal University Jaipur",
+  title: "CYBER SPACE CLUB | Manipal University Jaipur",
   description: "The flagship student cybersecurity society at MUJ",
 };
+
+import GlobalShaderBackground from "@/components/layout/GlobalShaderBackground";
 
 export default function RootLayout({
   children,
@@ -16,7 +18,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen flex flex-col bg-black text-white font-sans antialiased">
+      <body className="min-h-screen flex flex-col bg-black text-white font-sans antialiased relative">
+        <GlobalShaderBackground />
         <RootProvider>
           <Navbar />
           <main className="flex-1">{children}</main>
