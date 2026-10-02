@@ -30,7 +30,7 @@ const STATIC_SITE_PAGES: SearchResultItem[] = [
   {
     id: "page-home",
     title: "Home",
-    description: "CyberSpace Club MUJ official landing portal, domains & terminal",
+    description: "CYBER SPACE CLUB MUJ official landing portal, domains & terminal",
     category: "Pages",
     url: "/",
     icon: <Sparkles className="w-4 h-4 text-[#FF7900]" />,
@@ -55,7 +55,7 @@ const STATIC_SITE_PAGES: SearchResultItem[] = [
     id: "page-membership",
     title: "Club Membership Portal",
     category: "Pages",
-    description: "Join CyberSpace Club MUJ, unlock perks, badges & discord access",
+    description: "Join CYBER SPACE CLUB MUJ, unlock perks, badges & discord access",
     url: "/membership",
     icon: <UserCheck className="w-4 h-4 text-[#FF7900]" />,
   },
@@ -282,7 +282,7 @@ export default function ExpandingSearchDock() {
                     <kbd className="px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">↵</kbd> Select
                   </span>
                 </div>
-                <span>CyberSpace Club MUJ Global Search</span>
+                <span>CYBER SPACE CLUB MUJ Global Search</span>
               </div>
             </motion.div>
           </div>

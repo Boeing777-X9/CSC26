@@ -3,7 +3,7 @@ import { Shield, Lock, Server, Database } from "lucide-react";
 
 export default function WhatIsCyberSec() {
   return (
-    <section className="relative w-full bg-black/60 backdrop-blur-sm py-24 text-white border-t border-zinc-800/40">
+    <section className="relative w-full bg-black/40 backdrop-blur-md py-24 text-white border-t border-white/10">
       <div className="mx-auto max-w-6xl px-6 lg:px-12">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 items-center">
           {/* Left Column: Text & Badges */}
@@ -22,28 +22,28 @@ export default function WhatIsCyberSec() {
 
             {/* 4 Security Badges Grid */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div className="flex items-center gap-3 rounded-xl border border-zinc-800/90 bg-[#0B111B]/80 p-4 backdrop-blur-md">
+              <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-black/30 p-4 backdrop-blur-md hover:border-[#FF8C32]/40 transition-colors">
                 <Shield className="h-5 w-5 text-[#FF8C32] shrink-0" />
                 <span className="font-sans text-sm font-semibold text-zinc-200">
                   Network Protection
                 </span>
               </div>
 
-              <div className="flex items-center gap-3 rounded-xl border border-zinc-800/90 bg-[#0B111B]/80 p-4 backdrop-blur-md">
+              <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-black/30 p-4 backdrop-blur-md hover:border-[#FF8C32]/40 transition-colors">
                 <Lock className="h-5 w-5 text-[#FF8C32] shrink-0" />
                 <span className="font-sans text-sm font-semibold text-zinc-200">
                   Data Security
                 </span>
               </div>
 
-              <div className="flex items-center gap-3 rounded-xl border border-zinc-800/90 bg-[#0B111B]/80 p-4 backdrop-blur-md">
+              <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-black/30 p-4 backdrop-blur-md hover:border-[#FF8C32]/40 transition-colors">
                 <Server className="h-5 w-5 text-[#FF8C32] shrink-0" />
                 <span className="font-sans text-sm font-semibold text-zinc-200">
                   System Defense
                 </span>
               </div>
 
-              <div className="flex items-center gap-3 rounded-xl border border-zinc-800/90 bg-[#0B111B]/80 p-4 backdrop-blur-md">
+              <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-black/30 p-4 backdrop-blur-md hover:border-[#FF8C32]/40 transition-colors">
                 <Database className="h-5 w-5 text-[#FF8C32] shrink-0" />
                 <span className="font-sans text-sm font-semibold text-zinc-200">
                   Privacy Guard

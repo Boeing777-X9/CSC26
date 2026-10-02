@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import "@/app/globals.css";
+import ParticleTextEffect from "@/components/ui/particle-text-effect";
 
 /* ──────────────────────────────────────────────────
    TYPES & INTERFACES
@@ -59,14 +60,12 @@ const sanitizeUrl = (type: "linkedin" | "instagram" | "github", value?: string):
 };
 
 /* ──────────────────────────────────────────────────
-   REUSABLE SECTION HEADER
+   REUSABLE SECTION HEADER WITH PARTICLE TEXT EFFECT
 ────────────────────────────────────────────────── */
 const SectionHeader = ({ title }: { title: string }) => (
-  <div className="relative mb-12 w-full flex flex-col items-center">
-    <h2 className="text-3xl sm:text-4xl md:text-5xl text-center tracking-tight font-extrabold uppercase bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500 bg-clip-text text-transparent drop-shadow-[0_4px_10px_rgba(249,115,22,0.2)]">
-      {title}
-    </h2>
-    <div className="h-[2px] w-24 mx-auto mt-4 bg-gradient-to-r from-transparent via-orange-500 to-transparent rounded-full" />
+  <div className="relative mb-8 w-full flex flex-col items-center justify-center">
+    <ParticleTextEffect text={title} />
+    <div className="h-[2px] w-28 mx-auto -mt-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent rounded-full" />
   </div>
 );
 
@@ -392,7 +391,7 @@ const teamData: Record<string, TeamMember[]> = {
   "Joint Heads": [
     { name: "Jyothi Anand", post: "Joint Head of Events", quote: "We are the masters of our fate and the captains of our souls", linkedin: "https://www.linkedin.com/in/jyothi-a-6884163b9", photo: "" },
     { name: "Yash Yadav", post: "Joint Head of Events", quote: "Stay curious. Keep building", linkedin: "https://www.linkedin.com/in/yash-yadav-28566b3a9", instagram: "https://www.instagram.com/yashyadav_6", photo: "" },
-    { name: "Priyansh Agarwal", post: "Joint Head of Programs", quote: "Turning ideas into experiences, one program at a time. Building, leading, and creating with the Cyber Space Club.", linkedin: "https://www.linkedin.com/in/priyansh-agarwal-512999365", photo: "" },
+    { name: "Priyansh Agarwal", post: "Joint Head of Programs", quote: "Turning ideas into experiences, one program at a time. Building, leading, and creating with the CYBER SPACE CLUB.", linkedin: "https://www.linkedin.com/in/priyansh-agarwal-512999365", photo: "" },
     { name: "Harshit Dubey", post: "Joint Head of Programs", quote: "Tech in my mind, creativity in my lens, and leadership in everything I do.", linkedin: "https://www.linkedin.com/in/harshit-dubey-03073339b", instagram: "https://www.instagram.com/hars4t", photo: "" },
     { name: "Snehal Singh", post: "Joint Head of Programs", quote: "Don't stress do your best forget the rest", instagram: "tanusingh_0205", photo: "" },
     { name: "Samyukta Basu", post: "Joint Head of Marketing", quote: "Building, exploring, and leaving a little room for the unexpected.", linkedin: "https://www.linkedin.com/in/samyukta-basu-79656329a", instagram: "https://www.instagram.com/_samyukta__", photo: "" },
@@ -428,7 +427,7 @@ export default function TeamPage() {
   const execRest = execBoard.slice(2);
 
   return (
-    <div className="relative w-full pt-[120px] pb-20 text-[#eeeeee] overflow-x-hidden bg-[#0a0a0a] selection:bg-orange-500/30 selection:text-orange-200">
+    <div className="relative w-full pt-[120px] pb-20 text-[#eeeeee] overflow-x-hidden bg-transparent selection:bg-orange-500/30 selection:text-orange-200">
       
       {/* Background Ambient Glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-gradient-to-b from-orange-500/15 via-amber-600/5 to-transparent rounded-full blur-[140px] pointer-events-none" />
@@ -444,7 +443,7 @@ export default function TeamPage() {
             BEHIND THE <span className="bg-gradient-to-r from-orange-500 to-amber-300 bg-clip-text text-transparent">SCENES</span>
           </h1>
           <p className="mt-4 text-slate-400 text-sm sm:text-base md:text-lg font-medium tracking-[0.2em] uppercase text-center">
-            The minds powering CyberSpace Club
+            The minds powering CYBER SPACE CLUB
           </p>
         </div>
 

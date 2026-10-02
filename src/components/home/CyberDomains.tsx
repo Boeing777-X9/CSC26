@@ -13,13 +13,13 @@ const domainIcons: Record<string, React.ReactNode> = {
 
 export default function CyberDomains() {
   return (
-    <section className="relative z-10 w-full bg-zinc-950/90 border-t border-b border-zinc-800/60 py-20 px-6 sm:px-10 lg:px-20 backdrop-blur-md">
+    <section className="relative z-10 w-full bg-black/40 border-t border-b border-white/10 py-20 px-6 sm:px-10 lg:px-20 backdrop-blur-md">
       {/* Stats Counter Row from Ojash */}
       <div className="mx-auto max-w-6xl grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
         {statsData.map((stat, i) => (
           <div
             key={i}
-            className="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 backdrop-blur-md text-center hover:border-[#FF8C32]/50 transition-all duration-300 group"
+            className="p-6 rounded-2xl bg-black/30 border border-white/10 backdrop-blur-md text-center hover:border-[#FF8C32]/50 hover:bg-black/45 transition-all duration-300 group"
           >
             <div className="text-3xl sm:text-4xl font-extrabold text-[#FF8C32] tracking-tight group-hover:scale-105 transition-transform">
               {stat.value}
@@ -37,7 +37,7 @@ export default function CyberDomains() {
           Cyber Specializations
         </span>
         <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-          Pillars of CyberSpace
+          Pillars of CYBER SPACE CLUB
         </h2>
         <p className="mt-4 text-zinc-400 max-w-2xl mx-auto text-sm sm:text-base">
           From binary exploitation to breaking cryptographic primitives, our members master real-world cybersecurity disciplines.
@@ -49,7 +49,7 @@ export default function CyberDomains() {
         {menuCategories.map((cat) => (
           <div
             key={cat.id}
-            className="group relative rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-7 hover:border-[#FF8C32]/60 transition-all duration-300"
+            className="group relative rounded-2xl border border-white/10 bg-black/30 p-7 backdrop-blur-md hover:border-[#FF8C32]/60 hover:bg-black/45 transition-all duration-300"
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
@@ -70,7 +70,7 @@ export default function CyberDomains() {
               {cat.items.map((item, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center justify-between p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/40 hover:border-zinc-700 transition-colors"
+                  className="flex items-center justify-between p-3 rounded-xl bg-black/40 border border-white/10 hover:border-zinc-700 transition-colors"
                 >
                   <div className="flex flex-col">
                     <span className="text-sm font-semibold text-zinc-200">{item.name}</span>
