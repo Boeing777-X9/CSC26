@@ -30,14 +30,16 @@ export const DrawLineText: React.FC<DrawLineTextProps> = ({
         aria-hidden="true"
       >
         <motion.text
-          x="0"
+          x="50%"
           y="110"
+          textAnchor="middle"
           fill="transparent"
           stroke={color}
           strokeWidth="3.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="font-sans font-black uppercase text-[88px] tracking-tight"
+          className="font-cyber font-black uppercase text-[74px]"
+          letterSpacing="4"
           initial={{ strokeDasharray: 1200, strokeDashoffset: 1200, fillOpacity: 0 }}
           animate={
             mounted
@@ -60,6 +62,8 @@ export const DrawLineText: React.FC<DrawLineTextProps> = ({
           }}
           style={{
             fill: color,
+            fontFamily: "'Orbitron', 'Chakra Petch', 'Space Grotesk', sans-serif",
+            fontWeight: 900,
           }}
         >
           CYBER SPACE CLUB

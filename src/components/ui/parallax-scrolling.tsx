@@ -77,7 +77,7 @@ const DEFAULT_ITEMS: ParallaxScrollingItem[] = [
 
 export function ParallaxScrolling({
   items = DEFAULT_ITEMS,
-  title = "EXPLORE CYBERSPACE GALLERY",
+  title = "EXPLORE CYBER SPACE CLUB GALLERY",
   subtitle = "Parallax scroll through our active projects, security labs, and flag competitions.",
   className = "",
   ...rest

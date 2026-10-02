@@ -31,7 +31,7 @@ export const NetworkLearnBuild: React.FC = () => {
           return (
             <div
               key={idx}
-              className="group relative flex flex-col items-start rounded-xl border border-zinc-800/80 bg-[#0B111B]/85 p-3.5 shadow-lg backdrop-blur-md transition-all duration-300 hover:border-[#FF8C32]/50 hover:bg-[#0B111B] hover:shadow-[0_0_15px_rgba(255,140,50,0.2)]"
+              className="group relative flex flex-col items-center text-center rounded-xl border border-white/10 bg-black/30 p-3.5 shadow-lg backdrop-blur-md transition-all duration-300 hover:border-[#FF8C32]/50 hover:bg-black/50 hover:shadow-[0_0_15px_rgba(255,140,50,0.2)]"
             >
               {/* Compact Icon */}
               <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-lg border border-[#FF8C32]/30 bg-[#FF8C32]/10 text-[#FF8C32]">
@@ -41,12 +41,12 @@ export const NetworkLearnBuild: React.FC = () => {
               {/* Title with Text Color Reveal Sweep */}
               <TextColorReveal
                 text={item.title}
-                className="text-base font-bold text-white mb-0.5"
+                className="text-base font-bold text-white mb-0.5 text-center"
                 revealColor="#FF8C32"
               />
 
               {/* Subtitle */}
-              <p className="font-sans text-[11px] text-[#DDDDDD] leading-tight">
+              <p className="font-sans text-[11px] text-[#DDDDDD] leading-tight text-center">
                 {item.subtitle}
               </p>
             </div>

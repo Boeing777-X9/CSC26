@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "Cyberspace Club",
+  name: "CYBER SPACE CLUB",
   tagline: "Securing the Digital Frontier",
   email: "contact@csc-muj.com",
   phone: "+91 98765 43210",
@@ -31,7 +31,7 @@ export const aboutData = {
   title: ["Ethical", "Hacking", "Network Defense", "Zero", "Day", "Exploits"],
   signature: "built by hackers",
   description:
-    "Cyberspace Club (CSC) is a community of cybersecurity enthusiasts dedicated to exploring the realms of digital security, ethical hacking, and secure software development. We learn, we hack, we protect.",
+    "CYBER SPACE CLUB (CSC) is a community of cybersecurity enthusiasts dedicated to exploring the realms of digital security, ethical hacking, and secure software development. We learn, we hack, we protect.",
 };
 
 export const statsData = [
