@@ -113,7 +113,11 @@ function PixelTransition({
       tabIndex={0}
     >
       <div style={{ paddingTop: aspectRatio }} />
-      <div className="pixelated-image-card__default" aria-hidden={isActive}>
+      <div
+        className="pixelated-image-card__default"
+        style={{ opacity: isActive ? 0 : 1, transition: 'opacity 0.15s ease' }}
+        aria-hidden={isActive}
+      >
         {firstContent}
       </div>
       <div className="pixelated-image-card__active" ref={activeRef} aria-hidden={!isActive}>

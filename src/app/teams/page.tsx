@@ -25,6 +25,7 @@ interface FlipCardProps {
   github?: string;
   instagram?: string;
   quote?: string;
+  disableFlip?: boolean;
 }
 
 /* ──────────────────────────────────────────────────
@@ -74,7 +75,7 @@ const SectionHeader = ({ title }: { title: string }) => (
 /* ──────────────────────────────────────────────────
    3D SWIVEL + GSAP PIXEL TRANSITION CARD COMPONENT
 ────────────────────────────────────────────────── */
-function FlipCard({ name, role, photo, linkedin, github, instagram, quote }: FlipCardProps) {
+function FlipCard({ name, role, photo, linkedin, github, instagram, quote, disableFlip = false }: FlipCardProps) {
   const [rotateX, setRotateX] = useState<number>(0);
   const [rotateY, setRotateY] = useState<number>(0);
   const [imgFailed, setImgFailed] = useState<boolean>(false);
@@ -86,6 +87,9 @@ function FlipCard({ name, role, photo, linkedin, github, instagram, quote }: Fli
   
   const hasLinks = safeLinkedin || safeGithub || safeInstagram;
   const showPhoto = photo && !imgFailed;
+
+  const cleanQuote = quote && quote.trim() !== "" && quote !== "-" ? quote.trim() : "";
+  const canFlip = !disableFlip && Boolean(cleanQuote);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
@@ -105,6 +109,91 @@ function FlipCard({ name, role, photo, linkedin, github, instagram, quote }: Fli
     setRotateY(0);
   };
 
+  const frontContent = (
+    <div className="relative w-full h-full bg-[#0a0a0f] flex flex-col justify-end overflow-hidden rounded-2xl">
+      {/* Background Member Photo */}
+      <div className="absolute inset-0 w-full h-full">
+        {showPhoto ? (
+          <img src={photo} alt={name} onError={() => setImgFailed(true)} className="w-full h-full object-cover" />
+        ) : (
+          <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-neutral-900 to-[#0a0a0f]">
+            <span className="text-4xl text-orange-500/50">👤</span>
+          </div>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+      </div>
+
+      {/* Member Details Overlay */}
+      <div className="relative z-10 p-5 space-y-1 text-left">
+        <div className="text-base font-bold text-white group-hover:text-orange-400 transition-colors">{name}</div>
+        <div className="w-8 h-[2px] bg-gradient-to-r from-[#ff7900] to-amber-300 rounded-full" />
+        <div className="text-[10px] uppercase tracking-widest text-slate-300 font-mono">{role}</div>
+        
+        {hasLinks && (
+          <div className="flex gap-1.5 pt-2">
+            {safeLinkedin && (
+              <a href={safeLinkedin} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="p-1.5 rounded-md bg-white/10 hover:bg-[#ff7900] hover:text-black transition-colors text-white">
+                <LinkedInIcon />
+              </a>
+            )}
+            {safeGithub && (
+              <a href={safeGithub} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="p-1.5 rounded-md bg-white/10 hover:bg-[#ff7900] hover:text-black transition-colors text-white">
+                <GitHubIcon />
+              </a>
+            )}
+            {safeInstagram && (
+              <a href={safeInstagram} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="p-1.5 rounded-md bg-white/10 hover:bg-[#ff7900] hover:text-black transition-colors text-white">
+                <InstagramIcon />
+              </a>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  if (!canFlip) {
+    return (
+      <div
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        className="w-full h-full"
+        style={{
+          perspective: "1200px",
+          transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
+          transformStyle: "preserve-3d",
+          transition: "transform 0.1s ease-out",
+        }}
+      >
+        <div className="w-full h-full rounded-2xl border border-orange-500/30 overflow-hidden shadow-2xl bg-[#0f0f14]">
+          {frontContent}
+        </div>
+      </div>
+    );
+  }
+
+  const backContent = (
+    <div className="w-full h-full bg-gradient-to-br from-[#161922] via-[#0d0e15] to-[#090a0f] p-5 flex flex-col items-center justify-between text-center border border-[#ff7900]/40 shadow-inner rounded-2xl select-none">
+      <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold text-[#ff7900] uppercase tracking-widest pt-1">
+        <span>MEMBER WORDS</span>
+      </div>
+
+      <div className="space-y-1.5 px-1 my-auto flex flex-col items-center justify-center">
+        <span className="text-2xl text-[#ff7900] font-serif leading-none">“</span>
+        <p className="text-xs italic text-slate-200 leading-relaxed font-serif px-1 max-h-[140px] overflow-y-auto">
+          {cleanQuote}
+        </p>
+        <span className="text-2xl text-[#ff7900] font-serif leading-none">”</span>
+      </div>
+
+      <div className="pb-1 flex flex-col items-center gap-0.5">
+        <div className="text-xs font-bold text-white font-mono tracking-wider">{name}</div>
+        <div className="text-[9px] uppercase tracking-widest text-slate-400 font-mono">{role}</div>
+      </div>
+    </div>
+  );
+
   return (
     <div
       ref={cardRef}
@@ -119,67 +208,8 @@ function FlipCard({ name, role, photo, linkedin, github, instagram, quote }: Fli
       }}
     >
       <PixelTransition
-        firstContent={
-          <div className="relative w-full h-full bg-[#0a0a0f] flex flex-col justify-end overflow-hidden rounded-2xl">
-            {/* Background Member Photo */}
-            <div className="absolute inset-0 w-full h-full">
-              {showPhoto ? (
-                <img src={photo} alt={name} onError={() => setImgFailed(true)} className="w-full h-full object-cover" />
-              ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-neutral-900 to-[#0a0a0f]">
-                  <span className="text-4xl text-orange-500/50">👤</span>
-                </div>
-              )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-            </div>
-
-            {/* Member Details Overlay */}
-            <div className="relative z-10 p-5 space-y-1 text-left">
-              <div className="text-base font-bold text-white group-hover:text-orange-400 transition-colors">{name}</div>
-              <div className="w-8 h-[2px] bg-gradient-to-r from-[#ff7900] to-amber-300 rounded-full" />
-              <div className="text-[10px] uppercase tracking-widest text-slate-300 font-mono">{role}</div>
-              
-              {hasLinks && (
-                <div className="flex gap-1.5 pt-2">
-                  {safeLinkedin && (
-                    <a href={safeLinkedin} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="p-1.5 rounded-md bg-white/10 hover:bg-[#ff7900] hover:text-black transition-colors text-white">
-                      <LinkedInIcon />
-                    </a>
-                  )}
-                  {safeGithub && (
-                    <a href={safeGithub} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="p-1.5 rounded-md bg-white/10 hover:bg-[#ff7900] hover:text-black transition-colors text-white">
-                      <GitHubIcon />
-                    </a>
-                  )}
-                  {safeInstagram && (
-                    <a href={safeInstagram} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="p-1.5 rounded-md bg-white/10 hover:bg-[#ff7900] hover:text-black transition-colors text-white">
-                      <InstagramIcon />
-                    </a>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-        }
-        secondContent={
-          <div className="w-full h-full bg-gradient-to-br from-[#161922] via-[#0d0e15] to-[#090a0f] p-6 flex flex-col items-center justify-between text-center border border-[#ff7900]/40 shadow-inner rounded-2xl">
-            <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold text-[#ff7900] uppercase tracking-widest pt-2">
-              <span>Member Quote</span>
-            </div>
-
-            <div className="space-y-2 px-1">
-              <span className="text-3xl text-[#ff7900] font-serif leading-none">“</span>
-              <p className="text-xs italic text-slate-200 leading-relaxed font-serif">
-                {quote && quote !== "-" ? quote : "Securing the digital frontier, one exploit at a time."}
-              </p>
-              <span className="text-3xl text-[#ff7900] font-serif leading-none">”</span>
-            </div>
-
-            <div className="pb-2 text-[11px] font-mono font-bold text-[#ff7900] tracking-wider">
-              — {name}
-            </div>
-          </div>
-        }
+        firstContent={frontContent}
+        secondContent={backContent}
         gridSize={8}
         pixelColor="#ff7900"
         animationStepDuration={0.4}
@@ -304,7 +334,7 @@ export default function TeamPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full justify-items-center">
             {teamData["Faculty Coordinators"].map((member, i) => (
               <div className="w-[220px] h-[300px]" key={i}>
-                <FlipCard {...member} role={member.post} />
+                <FlipCard {...member} role={member.post} disableFlip />
               </div>
             ))}
           </div>
@@ -316,7 +346,7 @@ export default function TeamPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 w-full justify-items-center">
             {teamData["DSW"].map((member, i) => (
               <div className="w-[220px] h-[300px]" key={i}>
-                <FlipCard {...member} role={member.post} />
+                <FlipCard {...member} role={member.post} disableFlip />
               </div>
             ))}
           </div>
@@ -348,7 +378,7 @@ export default function TeamPage() {
 
         {/* Helper mapping for standard sections */}
         {[
-          { title: "ADVISORY BOARD", data: teamData["Advisory Board"] },
+          { title: "ADVISORY BOARD", data: teamData["Advisory Board"], disableFlip: true },
           { title: "COMMUNITY MANAGERS", data: teamData["Community Managers"] },
           { title: "HEADS", data: teamData["Heads"] },
           { title: "JOINT HEADS", data: teamData["Joint Heads"] },
@@ -359,7 +389,7 @@ export default function TeamPage() {
             <div className="gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center w-full">
               {section.data.map((member, i) => (
                 <div className="w-[220px] h-[300px]" key={i}>
-                  <FlipCard {...member} role={member.post} />
+                  <FlipCard {...member} role={member.post} disableFlip={section.disableFlip} />
                 </div>
               ))}
             </div>
