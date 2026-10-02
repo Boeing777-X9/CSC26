@@ -236,14 +236,14 @@ const teamData: Record<string, TeamMember[]> = {
     { name: "Dr. Sanchit Anand", post: "Assistant Director, Directorate of Student's Welfare", linkedin: "https://www.linkedin.com/in/dr-sanchit-anand-4a9112105/", photo: "" }
   ],
   "Executive Board": [
-    { name: "Abhinav Trikha", post: "Chairperson", quote: "Leading with vision, executing with code.", linkedin: "https://www.linkedin.com/in/abhinav-trikha/", photo: "" },
-    { name: "Ambika Seth", post: "Vice-Chairperson", quote: "Building a culture of relentless security & innovation.", photo: "" },
-    { name: "Amritansh Srivastava", post: "General Secretary", quote: "Orchestrating operations, empowering developers.", photo: "" },
-    { name: "Stuti Agrawal", post: "Treasurer", quote: "Precision in finance, strategy in execution.", photo: "" },
-    { name: "Harshit Raj Singh", post: "Executive Secretary", quote: "Vīra Bhogyā Vasundharā — dare, and the world is yours.", linkedin: "https://www.linkedin.com/in/harshit-raj-singh-613953335?utm_source=share_via&utm_content=profile&utm_medium=member_android", instagram: "https://www.instagram.com/_.harshit._.17?stkn=Yml3am40ZDBlY2pz", photo: "" },
-    { name: "Suyash Pandey", post: "Managing Director", quote: "Turning complex challenges into seamless experiences.", photo: "" },
-    { name: "Arindam Sharma", post: "Operational Director", quote: "Ensuring zero downtime in club operations.", photo: "" },
-    { name: "Soumyadeepa Pal", post: "Art Director", quote: "Magic happens when you don't give up. The universe always falls in love with a stubborn heart...!", linkedin: "www.linkedin.com/in/soumyadeepa-pal", instagram: "_soumyadeepa_pal_", photo: "" }
+    { name: "Abhinav Trikha", post: "Chairperson", linkedin: "https://www.linkedin.com/in/abhinav-trikha/", photo: "" },
+    { name: "Ambika Seth", post: "Vice-Chairperson", quote: "Leading with vision, building with purpose, and securing what matters.", linkedin: "https://www.linkedin.com/in/ambika-seth-084149333", instagram: "https://www.instagram.com/_.ambikaseth._", github: "https://github.com/ambikaseth01", photo: "" },
+    { name: "Amritansh Srivastava", post: "General Secretary", photo: "" },
+    { name: "Stuti Agrawal", post: "Treasurer", photo: "" },
+    { name: "Harshit Raj Singh", post: "Executive Secretary", quote: "Vīra Bhogyā Vasundharā — dare, and the world is yours.", linkedin: "https://www.linkedin.com/in/harshit-raj-singh-613953335", instagram: "https://www.instagram.com/_.harshit._.17", photo: "" },
+    { name: "Suyash Pandey", post: "Managing Director", quote: "Creating more than I consume, learning more than I know.", linkedin: "https://www.linkedin.com/in/suyash-pandey-a4b8b4326/", instagram: "https://www.instagram.com/__suyash_08/", github: "https://github.com/Suyash-0108", photo: "" },
+    { name: "Arindam Sharma", post: "Operational Director", quote: "You either Win or Learn! You never Fail! Enjoy your college life before you enter the real life", linkedin: "https://www.linkedin.com/in/arindam-sharma-5906", instagram: "https://www.instagram.com/arindamsharma05/", photo: "" },
+    { name: "Soumyadeepa Pal", post: "Art Director", quote: "Magic happens when you don't give up. Even though you want to.. The universe always falls in love with a stubborn heart...!", linkedin: "https://www.linkedin.com/in/soumyadeepa-pal", instagram: "https://www.instagram.com/_soumyadeepa_pal_", photo: "" }
   ],
   "Advisory Board": [
     { name: "Rishabh Pandey", post: "Advisory", photo: "" },
@@ -256,11 +256,11 @@ const teamData: Record<string, TeamMember[]> = {
   ],
   "Community Managers": [
     { name: "Manish Kumar Pandey", post: "Community Manager", quote: "I don’t wait for a role to give me responsibility; I take responsibility and make the role matter.", linkedin: "https://www.linkedin.com/in/manish-kumar-pandey-a0ba98378", instagram: "https://www.instagram.com/itz.me_manish.7", photo: "" },
-    { name: "Suhani Rusia", post: "Community Manager", quote: "Passionate about building connections, fostering collaboration, and creating a thriving tech community.", photo: "" }
+    { name: "Suhani Rusia", post: "Community Manager", quote: "Connect. Collaborate. Create.", photo: "" }
   ],
   "Heads": [
     { name: "Manas Malhotra", post: "Head of Events", photo: "" },
-    { name: "Anukriti Katoch", post: "Head of Programs", quote: "Coming from mountain peace, chasing city chaos, and embracing it all.", linkedin: "https://www.linkedin.com/in/anukriti-katoch-946472269", instagram: "https://www.instagram.com/palakshi_71", photo: "" },
+    { name: "Anukriti Katoch", post: "Head of Programs", quote: "Anukriti Katoch — coming from mountain peace, chasing city chaos, and embracing it all.", linkedin: "https://www.linkedin.com/in/anukriti-katoch-946472269", instagram: "https://www.instagram.com/palakshi_71", photo: "" },
     { name: "Parisikha Jain", post: "Head of Marketing", quote: "Creating, connecting, and turning ideas into something people remember.", linkedin: "https://www.linkedin.com/in/parisikha-jain-b46504413", instagram: "https://www.instagram.com/parisikha_20", photo: "" },
     { name: "Manshi Singh", post: "Technical Head", photo: "" },
     { name: "Sarthak Agrawal", post: "Head of Research & Development", quote: "Some days are heavy, and that's okay.", linkedin: "https://www.linkedin.com/in/sarthak-agrawal-83074437b", instagram: "https://www.instagram.com/sarthak_leo2", github: "https://github.com/sarthak6244", photo: "" },
@@ -272,26 +272,31 @@ const teamData: Record<string, TeamMember[]> = {
   "Joint Heads": [
     { name: "Jyothi Anand", post: "Joint Head of Events", quote: "We are the masters of our fate and the captains of our souls", linkedin: "https://www.linkedin.com/in/jyothi-a-6884163b9", photo: "" },
     { name: "Yash Yadav", post: "Joint Head of Events", quote: "Stay curious. Keep building", linkedin: "https://www.linkedin.com/in/yash-yadav-28566b3a9", instagram: "https://www.instagram.com/yashyadav_6", photo: "" },
-    { name: "Priyansh Agarwal", post: "Joint Head of Programs", quote: "Turning ideas into experiences, one program at a time.", linkedin: "https://www.linkedin.com/in/priyansh-agarwal-512999365", photo: "" },
+    { name: "Vyom Agarwal", post: "Events Team", quote: "Hi, I’m Vyom Agarwal, a B.Tech Computer Science and Engineering student, with a growing interest in technology and its ability to solve real-world problems.", linkedin: "https://www.linkedin.com/in/vyom-agarwal-b18049378", instagram: "https://www.instagram.com/vyom_agarwal_", photo: "" },
+    { name: "Manvith Bollu", post: "Events Team", quote: "Don’t overthink, just act", instagram: "https://www.instagram.com/manu_10186", photo: "" },
+    { name: "Priyansh Agarwal", post: "Joint Head of Programs", quote: "Turning ideas into experiences, one program at a time. Building, leading, and creating with the Cyber Space Club.", linkedin: "https://www.linkedin.com/in/priyansh-agarwal-512999365", photo: "" },
     { name: "Harshit Dubey", post: "Joint Head of Programs", quote: "Tech in my mind, creativity in my lens, and leadership in everything I do.", linkedin: "https://www.linkedin.com/in/harshit-dubey-03073339b", instagram: "https://www.instagram.com/hars4t", photo: "" },
-    { name: "Snehal Singh", post: "Joint Head of Programs", quote: "Don't stress do your best forget the rest", instagram: "tanusingh_0205", photo: "" },
+    { name: "Snehal Singh", post: "Joint Head of Programs", quote: "Don't stress do your best forget the rest", instagram: "https://www.instagram.com/tanusingh_0205", photo: "" },
     { name: "Samyukta Basu", post: "Joint Head of Marketing", quote: "Building, exploring, and leaving a little room for the unexpected.", linkedin: "https://www.linkedin.com/in/samyukta-basu-79656329a", instagram: "https://www.instagram.com/_samyukta__", photo: "" },
     { name: "Rudra Pratap Singh", post: "Joint Head of Technical", quote: "Expect disappointment so that you can never be disappointed", linkedin: "https://www.linkedin.com/in/rudra-pratap-singh-8523502b6", instagram: "https://www.instagram.com/rudrapratapsingh.725", github: "https://github.com/Rudra-25-12", photo: "" },
     { name: "Ojash Bhatnagar", post: "Joint Head of Technical", quote: "Here for the plot", linkedin: "https://www.linkedin.com/in/ojash-bhatnagar-35b37a380", photo: "" },
     { name: "Pradyumn Kabra", post: "Joint Head of Technical", quote: "Turning ideas into code, and challenges into opportunities.", linkedin: "https://www.linkedin.com/in/pradyumn-kabra-b17386233/", instagram: "https://www.instagram.com/pradyumn.ka6ra", photo: "" },
     { name: "Shubhangi Kesharwani", post: "Joint Head of Research & Development", quote: "A lifelong apprentice to the art of figuring things out.", linkedin: "https://www.linkedin.com/in/shubhangi-kesharwani-363189383/", instagram: "https://www.instagram.com/shubhangik_21/", github: "https://github.com/ShubhangiK06", photo: "" },
-    { name: "Riya Kumari", post: "Joint Head of Research & Development", quote: "Books taught me that softness and strength can coexist.", linkedin: "www.linkedin.com/in/riya-kumari-5b302239a", github: "https://github.com/riyakumarif5-stack", photo: "" },
+    { name: "Riya Kumari", post: "Joint Head of Research & Development", quote: "Books taught me that softness and strength can coexist. I’ve been a fan of both ever since.", linkedin: "https://www.linkedin.com/in/riya-kumari-5b302239a", github: "https://github.com/riyakumarif5-stack", photo: "" },
     { name: "Sanaya Muchhal", post: "Joint Head of Corporate Affairs", quote: "A little curious about everything.", photo: "" },
     { name: "Chetna Sharma", post: "Joint Head of Graphic Design", quote: "My energy is unlimited, my motivation is missing, and my questions are never-ending.", instagram: "https://www.instagram.com/sleepdeprived_91", photo: "" },
     { name: "Nitigya Surana", post: "Joint Head of Graphic Design", quote: "Design is not just what it looks like and feels like. Design is how it works", linkedin: "https://www.linkedin.com/in/nitigya-surana-5b75a3379", instagram: "https://www.instagram.com/nitigya_0607", photo: "" },
+    { name: "Aamya Sinha", post: "Graphic Design Team", quote: "Every human is the writer of their own story.", photo: "" },
+    { name: "Aadarsh Kumar", post: "Graphic Design Team", quote: "Jack of all trait master of none but often times better than master of one", instagram: "https://www.instagram.com/aadarsh.kur", photo: "" },
     { name: "Nileshwari Patil", post: "Joint Head of Media", photo: "" },
-    { name: "Pranjal Patel", post: "Joint Head of Media", quote: "The reward for good work is more work.", linkedin: "https://www.linkedin.com/in/pranjal-patel-53b272375", instagram: "https://www.instagram.com/pranjalpatel._", photo: "" }
+    { name: "Pranjal Patel", post: "Joint Head of Media", quote: "The reward for good work is more work.", linkedin: "https://www.linkedin.com/in/pranjal-patel-53b272375", instagram: "https://www.instagram.com/pranjalpatel._", photo: "" },
+    { name: "Adarsh Raj", post: "Media Team", quote: "A little curious, a little chaotic, and always evolving.", photo: "" }
   ],
   "Senior Co-ordinators": [
     { name: "Mayank Pramanick", post: "Senior Coordinator of Programs", photo: "" },
     { name: "Jiya Chhabra", post: "Senior Coordinator Marketing", quote: "Somewhere between figuring it all out and making it happen.", photo: "" },
     { name: "Aditya Tripathi", post: "Senior Coordinator Technical", quote: "Turning curiosity into code and ideas into reality.", linkedin: "http://www.linkedin.com/in/aditya-tripathi-922a2429a", instagram: "aditya._tripathi._", github: "Aditya6743", photo: "" },
-    { name: "Mohammad Faisal", post: "Senior Coordinator Technical", quote: "Building intelligent systems & offensive architectures.", photo: "" },
+    { name: "Mohammad Faisal", post: "Senior Coordinator Technical", photo: "" },
     { name: "Satyam Jha", post: "Senior Coordinator Research & Development", photo: "" },
     { name: "Saumya Singh", post: "Senior Coordinator Media", photo: "" },
     { name: "Shashank Agrawal", post: "Senior Coordinator Operations & Logistics", quote: "Learning today, building tomorrow.", linkedin: "https://www.linkedin.com/in/shashank-agrawal-026b34368", instagram: "https://www.instagram.com/shashankagarwal1103", photo: "" },
