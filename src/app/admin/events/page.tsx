@@ -2,287 +2,267 @@
 
 import React, { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { Plus, Trash2, Eye, EyeOff, Link as LinkIcon, Link2Off } from "lucide-react";
-
-interface EventItem {
-  id: string;
-  title: string;
-  description: string;
-  date: string;
-  time: string;
-  venue: string;
-  category: string;
-  image_url: string;
-  is_visible: boolean;
-  registration_live: boolean;
-}
+import { Plus, Pencil, Trash2, X, ShieldAlert, Save, UploadCloud, Loader2 } from "lucide-react";
 
 export default function AdminEventsPage() {
-  const [events, setEvents] = useState<EventItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const supabase = createClient();
+  
+  const [checkingAuth, setCheckingAuth] = useState(true);
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [adminEmail, setAdminEmail] = useState<string | null>(null);
 
-  // Form State
+  const [events, setEvents] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [imageUploading, setImageUploading] = useState(false);
+  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     title: "",
-    description: "",
     date: "",
-    time: "",
-    venue: "",
-    category: "",
+    time: "TBA",
+    venue: "MUJ Campus",
+    description: "",
+    category: "General",
+    type: "normal",
     image_url: "",
-    is_visible: true,
     registration_live: false,
+    is_visible: true,
   });
 
-  // Fetch Events
+  useEffect(() => {
+    const verifyAdminAccess = async () => {
+      setCheckingAuth(true);
+      try {
+        const { data: { user }, error: authError } = await supabase.auth.getUser();
+        if (authError || !user?.email) {
+          setIsAuthorized(false);
+          return;
+        }
+        setAdminEmail(user.email);
+        const { data: adminData } = await supabase.from("admins").select("email").eq("email", user.email).single();
+        if (adminData) {
+          setIsAuthorized(true);
+          fetchEvents(); 
+        } else {
+          setIsAuthorized(false);
+        }
+      } catch (err) {
+        setIsAuthorized(false);
+      } finally {
+        setCheckingAuth(false);
+      }
+    };
+    verifyAdminAccess();
+  }, []);
+
   const fetchEvents = async () => {
     setLoading(true);
-    try {
-      const supabase = createClient();
-      if (supabase) {
-        const { data, error } = await supabase
-          .from("events")
-          .select("*")
-          .order("created_at", { ascending: false });
+    const { data } = await supabase.from("events").select("*").order("created_at", { ascending: false });
+    if (data) setEvents(data);
+    setLoading(false);
+  };
 
-        if (!error && data) {
-          setEvents(data as EventItem[]);
-        }
+  const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setImageUploading(true);
+    const uploadData = new FormData();
+    uploadData.append("file", file);
+
+    try {
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: uploadData,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Upload failed");
       }
-    } catch (err) {
-      console.error("Error fetching admin events:", err);
+      
+      if (data.url) {
+        setFormData({ ...formData, image_url: data.url });
+      }
+    } catch (error: any) {
+      console.error(error);
+      alert(error.message || "Upload failed. Are you sure you are an admin?");
     } finally {
+      setImageUploading(false);
+    }
+  };
+
+  const handleOpenModal = (event: any = null) => {
+    if (event) {
+      setEditingId(event.id);
+      setFormData({
+        title: event.title,
+        date: event.date,
+        time: event.time || "TBA",
+        venue: event.venue || "MUJ Campus",
+        description: event.description,
+        category: event.category || "General",
+        type: event.type || "normal",
+        image_url: event.image_url || "",
+        registration_live: event.registration_live,
+        is_visible: event.is_visible,
+      });
+    } else {
+      setEditingId(null);
+      setFormData({ title: "", date: "", time: "TBA", venue: "MUJ Campus", description: "", category: "General", type: "normal", image_url: "", registration_live: false, is_visible: true });
+    }
+    setIsModalOpen(true);
+  };
+
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    if (editingId) {
+      await supabase.from("events").update(formData).eq("id", editingId);
+    } else {
+      await supabase.from("events").insert([formData]);
+    }
+    await fetchEvents();
+    setIsModalOpen(false);
+    setLoading(false);
+  };
+
+  const handleDelete = async (id: string) => {
+    if (confirm("Are you sure you want to delete this event? This cannot be undone.")) {
+      setLoading(true);
+      await supabase.from("events").delete().eq("id", id);
+      await fetchEvents();
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchEvents();
-  }, []);
+  if (checkingAuth) return <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center text-[#ff7900]">Verifying credentials...</div>;
 
-  // Handle Input Change
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value, type } = e.target;
-    if (type === "checkbox") {
-      const checked = (e.target as HTMLInputElement).checked;
-      setFormData((prev) => ({ ...prev, [name]: checked }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
-  };
-
-  // Add New Event
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      const supabase = createClient();
-      if (!supabase) {
-        alert("Supabase client is not connected.");
-        setIsSubmitting(false);
-        return;
-      }
-
-      const { error } = await supabase.from("events").insert([formData]);
-
-      if (!error) {
-        setFormData({
-          title: "",
-          description: "",
-          date: "",
-          time: "",
-          venue: "",
-          category: "",
-          image_url: "",
-          is_visible: true,
-          registration_live: false,
-        });
-        fetchEvents();
-        alert("Event added successfully!");
-      } else {
-        alert("Error adding event: " + error.message);
-      }
-    } catch (err: any) {
-      alert("Error adding event: " + err.message);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  // Toggle Boolean Fields (is_visible, registration_live)
-  const toggleStatus = async (id: string, field: "is_visible" | "registration_live", currentValue: boolean) => {
-    const supabase = createClient();
-    if (!supabase) return;
-
-    const { error } = await supabase
-      .from("events")
-      .update({ [field]: !currentValue })
-      .eq("id", id);
-
-    if (!error) {
-      fetchEvents();
-    }
-  };
-
-  // Delete Event
-  const deleteEvent = async (id: string) => {
-    if (!window.confirm("Are you sure you want to delete this event?")) return;
-
-    const supabase = createClient();
-    if (!supabase) return;
-
-    const { error } = await supabase.from("events").delete().eq("id", id);
-    if (!error) {
-      fetchEvents();
-    }
-  };
+  if (!isAuthorized) {
+    return (
+      <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center p-4">
+        <ShieldAlert className="w-16 h-16 text-rose-500 mb-4" />
+        <h1 className="text-2xl font-bold text-white mb-2">Access Denied</h1>
+        <p className="text-zinc-400 text-center max-w-md">Your email address ({adminEmail}) is not authorized.</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-[#090a0f] text-slate-100 py-10 px-4 sm:px-6">
-      <div className="max-w-6xl mx-auto space-y-10">
+    <div className="min-h-screen bg-[#0a0a0a] text-slate-200 p-6 sm:p-10">
+      <div className="max-w-6xl mx-auto space-y-8">
         
-        {/* Header */}
-        <div>
-          <h1 className="text-3xl font-bold text-white mb-2">Event Management</h1>
-          <p className="text-slate-400">Add new events and toggle their visibility on the public page.</p>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-zinc-800 pb-6">
+          <div>
+            <h1 className="text-3xl font-bold text-white">Event Management</h1>
+            <p className="text-sm text-zinc-400 mt-1">Authenticated as {adminEmail}</p>
+          </div>
+          <button onClick={() => handleOpenModal()} className="flex items-center gap-2 bg-[#ff7900] text-black px-5 py-2.5 rounded-xl font-bold hover:bg-white transition-colors">
+            <Plus className="w-4 h-4" /> Create New Event
+          </button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Add Event Form */}
-          <div className="bg-[#12141c] border border-slate-800 p-6 rounded-2xl h-fit">
-            <h2 className="text-xl font-bold text-[#ff7900] mb-6">Create New Event</h2>
-            
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-xs font-bold text-slate-400 mb-1">TITLE *</label>
-                <input required name="title" value={formData.title} onChange={handleChange} className="w-full bg-[#090a0f] border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:border-[#ff7900] outline-none" />
-              </div>
-              
-              <div>
-                <label className="block text-xs font-bold text-slate-400 mb-1">DESCRIPTION *</label>
-                <textarea required name="description" rows={3} value={formData.description} onChange={handleChange} className="w-full bg-[#090a0f] border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:border-[#ff7900] outline-none" />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-slate-400 mb-1">DATE *</label>
-                  <input required name="date" placeholder="e.g. Oct 24, 2026" value={formData.date} onChange={handleChange} className="w-full bg-[#090a0f] border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:border-[#ff7900] outline-none" />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-slate-400 mb-1">TIME</label>
-                  <input name="time" placeholder="e.g. 10:00 AM" value={formData.time} onChange={handleChange} className="w-full bg-[#090a0f] border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:border-[#ff7900] outline-none" />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-slate-400 mb-1">VENUE *</label>
-                  <input required name="venue" value={formData.venue} onChange={handleChange} className="w-full bg-[#090a0f] border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:border-[#ff7900] outline-none" />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-slate-400 mb-1">CATEGORY</label>
-                  <input name="category" placeholder="e.g. Hackathon" value={formData.category} onChange={handleChange} className="w-full bg-[#090a0f] border border-slate-700 rounded-lg px-3 py-2 text-sm text-[#ff7900] focus:border-[#ff7900] outline-none" />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-slate-400 mb-1">IMAGE URL</label>
-                <input name="image_url" placeholder="https://..." value={formData.image_url} onChange={handleChange} className="w-full bg-[#090a0f] border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:border-[#ff7900] outline-none" />
-              </div>
-
-              <div className="flex items-center gap-6 pt-2 pb-4">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="is_visible" checked={formData.is_visible} onChange={handleChange} className="w-4 h-4 accent-[#ff7900]" />
-                  <span className="text-sm font-medium text-slate-300">Visible on site</span>
-                </label>
-                
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="registration_live" checked={formData.registration_live} onChange={handleChange} className="w-4 h-4 accent-emerald-500" />
-                  <span className="text-sm font-medium text-slate-300">Reg Live</span>
-                </label>
-              </div>
-
-              <button 
-                type="submit" 
-                disabled={isSubmitting}
-                className="w-full flex items-center justify-center gap-2 bg-[#ff7900] hover:bg-[#ff9533] text-black font-bold py-3 rounded-lg transition-colors disabled:opacity-50 cursor-pointer"
-              >
-                <Plus className="w-5 h-5" />
-                {isSubmitting ? "Saving..." : "Add Event"}
-              </button>
-            </form>
-          </div>
-
-          {/* Existing Events List */}
-          <div className="lg:col-span-2 space-y-4">
-            <h2 className="text-xl font-bold text-white">Manage Database Events</h2>
-            
-            {loading ? (
-              <div className="text-slate-400">Loading events...</div>
-            ) : events.length === 0 ? (
-              <div className="bg-[#12141c] border border-slate-800 p-8 rounded-2xl text-center text-slate-500">
-                No events in the database yet. You can add one using the form on the left!
-              </div>
-            ) : (
-              <div className="grid gap-4">
+        <div className="bg-[#161922] rounded-2xl border border-zinc-800 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-zinc-900 text-zinc-400 font-mono text-xs uppercase border-b border-zinc-800">
+                <tr>
+                  <th className="px-6 py-4">Status</th>
+                  <th className="px-6 py-4">Event Title</th>
+                  <th className="px-6 py-4">Date</th>
+                  <th className="px-6 py-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-zinc-800/50">
                 {events.map((event) => (
-                  <div key={event.id} className="bg-[#12141c] border border-slate-800 p-5 rounded-xl flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
-                    
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-[#ff7900] text-xs font-mono border border-[#ff7900]/30 px-2 py-0.5 rounded">
-                          {event.category || "General"}
-                        </span>
-                        <h3 className="font-bold text-white text-lg">{event.title}</h3>
-                      </div>
-                      <p className="text-xs text-slate-400 font-mono">
-                        {event.date} • {event.venue}
-                      </p>
-                    </div>
-
-                    <div className="flex items-center gap-2 w-full sm:w-auto">
-                      {/* Visibility Toggle */}
-                      <button
-                        onClick={() => toggleStatus(event.id, "is_visible", event.is_visible)}
-                        className={`flex-1 sm:flex-none px-3 py-2 rounded-lg border text-sm font-medium flex items-center justify-center gap-2 transition-colors ${
-                          event.is_visible 
-                            ? "bg-slate-800 border-slate-700 text-white hover:bg-slate-700" 
-                            : "bg-red-500/10 border-red-500/30 text-red-400 hover:bg-red-500/20"
-                        }`}
-                      >
-                        {event.is_visible ? <><Eye className="w-4 h-4"/> Visible</> : <><EyeOff className="w-4 h-4"/> Hidden</>}
-                      </button>
-
-                      {/* Registration Toggle */}
-                      <button
-                        onClick={() => toggleStatus(event.id, "registration_live", event.registration_live)}
-                        className={`flex-1 sm:flex-none px-3 py-2 rounded-lg border text-sm font-medium flex items-center justify-center gap-2 transition-colors ${
-                          event.registration_live 
-                            ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20" 
-                            : "bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700"
-                        }`}
-                      >
-                        {event.registration_live ? <><LinkIcon className="w-4 h-4"/> Reg Open</> : <><Link2Off className="w-4 h-4"/> Reg Closed</>}
-                      </button>
-
-                      {/* Delete Button */}
-                      <button
-                        onClick={() => deleteEvent(event.id)}
-                        className="p-2 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white rounded-lg transition-colors"
-                        title="Delete Event"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </div>
+                  <tr key={event.id} className="hover:bg-zinc-800/20 transition-colors">
+                    <td className="px-6 py-4">
+                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${event.registration_live ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30" : "bg-zinc-800 text-zinc-400 border border-zinc-700"}`}>
+                        {event.registration_live ? "Registrations Open" : "Closed"}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 font-bold text-white">{event.title}</td>
+                    <td className="px-6 py-4 text-zinc-400 font-mono text-xs">{event.date}</td>
+                    <td className="px-6 py-4 flex justify-end gap-3">
+                      <button onClick={() => handleOpenModal(event)} className="text-zinc-400 hover:text-[#ff7900] transition-colors p-1"><Pencil className="w-4 h-4" /></button>
+                      <button onClick={() => handleDelete(event.id)} className="text-zinc-400 hover:text-rose-500 transition-colors p-1"><Trash2 className="w-4 h-4" /></button>
+                    </td>
+                  </tr>
                 ))}
-              </div>
-            )}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-[#161922] w-full max-w-2xl rounded-2xl border border-zinc-800 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="p-6 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50">
+              <h2 className="text-xl font-bold text-white">{editingId ? "Edit Event" : "Create New Event"}</h2>
+              <button onClick={() => setIsModalOpen(false)} className="text-zinc-400 hover:text-white"><X className="w-5 h-5" /></button>
+            </div>
+            
+            <form onSubmit={handleSave} className="p-6 space-y-4 overflow-y-auto">
+              
+              <div className="p-4 bg-zinc-900/50 border border-zinc-700 border-dashed rounded-xl flex flex-col items-center justify-center gap-3">
+                {formData.image_url ? (
+                  <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-zinc-800">
+                    <img src={formData.image_url} alt="Preview" className="w-full h-full object-contain bg-black" />
+                    <button type="button" onClick={() => setFormData({...formData, image_url: ""})} className="absolute top-2 right-2 bg-rose-500 text-white p-1.5 rounded-md hover:bg-rose-600"><X className="w-4 h-4" /></button>
+                  </div>
+                ) : (
+                  <>
+                    <UploadCloud className="w-8 h-8 text-zinc-400" />
+                    <label className="cursor-pointer bg-[#ff7900] text-black px-4 py-2 rounded-lg font-bold hover:bg-white transition-colors flex items-center gap-2">
+                      {imageUploading ? <><Loader2 className="w-4 h-4 animate-spin" /> Uploading...</> : "Upload Poster"}
+                      <input type="file" accept="image/*" onChange={uploadImage} className="hidden" disabled={imageUploading} />
+                    </label>
+                    <p className="text-xs text-zinc-500">Upload direct to Cloudinary</p>
+                  </>
+                )}
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Title</label>
+                  <input required type="text" value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} className="w-full bg-black border border-zinc-700 rounded-lg px-4 py-2 text-white focus:border-[#ff7900] focus:outline-none" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Date</label>
+                  <input required type="text" placeholder="e.g. 15 March 2026" value={formData.date} onChange={e => setFormData({...formData, date: e.target.value})} className="w-full bg-black border border-zinc-700 rounded-lg px-4 py-2 text-white focus:border-[#ff7900] focus:outline-none" />
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Description</label>
+                <textarea required rows={4} value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} className="w-full bg-black border border-zinc-700 rounded-lg px-4 py-2 text-white focus:border-[#ff7900] focus:outline-none" />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 pt-2">
+                <label className="flex items-center gap-3 p-3 bg-black border border-zinc-800 rounded-xl cursor-pointer hover:border-zinc-700">
+                  <input type="checkbox" checked={formData.registration_live} onChange={e => setFormData({...formData, registration_live: e.target.checked})} className="w-4 h-4 accent-[#ff7900]" />
+                  <span className="text-sm font-medium text-white">Registrations Open</span>
+                </label>
+                
+                <label className="flex items-center gap-3 p-3 bg-black border border-zinc-800 rounded-xl cursor-pointer hover:border-zinc-700">
+                  <input type="checkbox" checked={formData.is_visible} onChange={e => setFormData({...formData, is_visible: e.target.checked})} className="w-4 h-4 accent-[#ff7900]" />
+                  <span className="text-sm font-medium text-white">Publicly Visible</span>
+                </label>
+              </div>
+
+              <div className="pt-6 border-t border-zinc-800 flex justify-end gap-3">
+                <button type="button" onClick={() => setIsModalOpen(false)} className="px-5 py-2.5 rounded-xl font-bold text-zinc-300 hover:bg-zinc-800 transition-colors">Cancel</button>
+                <button type="submit" disabled={loading} className="px-5 py-2.5 bg-[#ff7900] text-black rounded-xl font-bold hover:bg-white transition-colors flex items-center gap-2">
+                  {loading ? "Saving..." : <><Save className="w-4 h-4" /> Save Event</>}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
