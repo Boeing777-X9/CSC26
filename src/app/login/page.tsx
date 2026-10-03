@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 
-export default function LoginPage() {
+export default function MemberLoginPage() {
   const [loading, setLoading] = useState(false);
   const supabase = createClient();
 
@@ -13,7 +13,7 @@ export default function LoginPage() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=/admin`,
+        redirectTo: `${window.location.origin}/auth/callback`,
       },
     });
 
@@ -27,13 +27,13 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center p-4">
       <div className="bg-[#161922] p-8 rounded-2xl border border-zinc-800 text-center max-w-sm w-full shadow-2xl">
-        <h1 className="text-2xl font-bold text-white mb-2">Admin Login</h1>
-        <p className="text-zinc-400 text-sm mb-8">Sign in with your authorized Google account to access the dashboard.</p>
+        <h1 className="text-2xl font-bold text-white mb-2">Member Login</h1>
+        <p className="text-zinc-400 text-sm mb-8">Sign in with your Google account to register for upcoming events.</p>
         
         <button
           onClick={handleGoogleLogin}
           disabled={loading}
-          className="w-full flex items-center justify-center gap-3 bg-white text-black px-4 py-3 rounded-xl font-bold hover:bg-zinc-200 transition-colors disabled:opacity-50"
+          className="w-full flex items-center justify-center gap-3 bg-[#ff7900] text-black px-4 py-3 rounded-xl font-bold hover:bg-white transition-colors disabled:opacity-50"
         >
           {loading ? (
             <Loader2 className="w-5 h-5 animate-spin" />
