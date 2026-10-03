@@ -4,7 +4,6 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
-import { eventsList, EventItem } from "@/lib/data/events";
 import { lookupCertificate, VerifiedCertificate } from "@/lib/data/certificates";
 import { CanvasText } from "@/components/ui/canvas-text";
 import CurvedTextLoop from "@/components/ui/curved-text-loop";
@@ -15,14 +14,60 @@ import {
   Info, ChevronDown, ChevronUp, Trophy, Users, Gift, Mic, Tag, Shield
 } from "lucide-react";
 
+export interface EventItem {
+  id: string;
+  title: string;
+  year?: string;
+  category?: string;
+  date: string;
+  time?: string;
+  venue?: string;
+  description: string;
+  status: "Upcoming" | "Ongoing" | "Completed";
+  certificateAvailable?: boolean;
+  poster: string;
+  tags?: string[];
+  prizePool?: string;
+  winners?: { position: number; name: string; prize?: string }[];
+  judges?: string[];
+  speaker?: string;
+  extraDetails?: string;
+}
+
+const parseEventDate = (dateStr: string): number => {
+  if (!dateStr) return 0;
+  const months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+  
+  const yearMatch = dateStr.match(/\b(20\d{2})\b/);
+  const year = yearMatch ? parseInt(yearMatch[1]) : new Date().getFullYear();
+
+  const monthMatch = dateStr.match(/[a-zA-Z]+/);
+  let monthIndex = 0;
+  if (monthMatch) {
+    const m = monthMatch[0].toLowerCase().substring(0, 3);
+    monthIndex = months.indexOf(m);
+    if (monthIndex === -1) monthIndex = 0; 
+  }
+
+  const dayMatch = dateStr.match(/\b(\d{1,2})\b/);
+  const day = dayMatch ? parseInt(dayMatch[1]) : 1;
+
+  return new Date(year, monthIndex, day).getTime();
+};
+
+const getOptimizedImage = (url: string) => {
+  if (!url || !url.includes('cloudinary.com')) return url;
+  return url.replace('/image/upload/', '/image/upload/f_auto,q_auto/');
+};
+
 export default function EventsPage() {
   const router = useRouter();
   const [selectedYear, setSelectedYear] = useState<string>("2026");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedEventForCertificate, setSelectedEventForCertificate] = useState<EventItem | null>(null);
 
-  // Responsive font size for CanvasText headline
   const [headingFontSize, setHeadingFontSize] = useState(56);
+  
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 640) {
@@ -38,56 +83,59 @@ export default function EventsPage() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Supabase Dynamic Events State
-  const [events, setEvents] = useState<EventItem[]>(eventsList);
+  const [events, setEvents] = useState<EventItem[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Certificate Verification & Search State
-  const [searchRegNo, setSearchRegNo] = useState("249301045");
+  const [searchRegNo, setSearchRegNo] = useState("");
   const [verifiedCert, setVerifiedCert] = useState<VerifiedCertificate | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
   const [certDownloaded, setCertDownloaded] = useState(false);
   const [showCertInput, setShowCertInput] = useState(false);
   const [showMoreDetails, setShowMoreDetails] = useState(false);
 
-  // Fetch events from Supabase and merge with Rudra's eventsList
   useEffect(() => {
     const fetchEvents = async () => {
       setLoading(true);
-      let supabaseEvents: EventItem[] = [];
-
       try {
         const supabase = createClient();
-        if (supabase) {
-          const { data, error } = await supabase
-            .from("events")
-            .select("*");
+        const { data, error } = await supabase
+          .from("events")
+          .select("*")
+          .neq("is_visible", false); 
 
-          if (!error && data && data.length > 0) {
-            supabaseEvents = data.map((item: any) => ({
-              id: item.id || `sp-${Date.now()}`,
-              year: item.date?.match(/\b(20\d{2})\b/)?.[0] || "2026",
+        if (!error && data) {
+          const mappedEvents: EventItem[] = data.map((item: any) => {
+            const eventTime = parseEventDate(item.date);
+            const isFuture = eventTime > Date.now();
+            
+            let status: "Upcoming" | "Ongoing" | "Completed" = "Completed";
+            if (item.registration_live) status = "Ongoing";
+            else if (isFuture) status = "Upcoming";
+
+            return {
+              id: item.id,
+              year: item.date?.match(/\b(20\d{2})\b/)?.[0] || new Date(eventTime).getFullYear().toString(),
               title: item.title,
-              category: item.category || "General",
+              category: item.type === 'competition' ? 'Competition' : (item.category || "General"),
               date: item.date,
               time: item.time || "TBA",
               venue: item.venue || "MUJ Campus",
               description: item.description,
-              status: item.registration_live ? "Ongoing" : "Completed",
+              status: status,
               certificateAvailable: true,
-              poster: item.image_url || "/events/posters/decrypta.webp",
-              tags: item.category ? [item.category] : [],
-            }));
-          }
+              poster: item.image || item.image_url || null,
+              tags: item.type ? [item.type] : [],
+              winners: item.show_winners ? item.winners : [],
+              extraDetails: item.whatsapp_group_link ? `Community Link: ${item.whatsapp_group_link}` : undefined
+            };
+          });
+
+          mappedEvents.sort((a, b) => parseEventDate(b.date) - parseEventDate(a.date));
+          setEvents(mappedEvents);
         }
       } catch (err) {
         console.error("Error fetching Supabase events:", err);
       } finally {
-        const combinedMap = new Map<string, EventItem>();
-        eventsList.forEach((e) => combinedMap.set(e.id, e));
-        supabaseEvents.forEach((e) => combinedMap.set(e.id, e));
-        
-        setEvents(Array.from(combinedMap.values()));
         setLoading(false);
       }
     };
@@ -95,7 +143,6 @@ export default function EventsPage() {
     fetchEvents();
   }, []);
 
-  // Filter events based on year and search query
   const filteredEvents = useMemo(() => {
     return events.filter((event) => {
       const eventYearMatch = event.year || event.date?.match(/\b(20\d{2})\b/)?.[0] || "";
@@ -111,14 +158,12 @@ export default function EventsPage() {
     });
   }, [events, selectedYear, searchQuery]);
 
-  // Upcoming events for the top section with CurvedTextLoop
   const upcomingEvents = useMemo(() => {
     return events.filter(
       (e) => e.status === "Upcoming" || e.status === "Ongoing" || e.year === "2026"
     );
   }, [events]);
 
-  // Extract unique available years
   const availableYears = useMemo(() => {
     const ySet = new Set<string>();
     events.forEach((e) => {
@@ -170,13 +215,15 @@ export default function EventsPage() {
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
+    URL.revokeObjectURL(SVGURL);
   };
+
+  const placeholderImage = "https://placehold.co/600x800/1a1a1a/ff7900?text=Poster+Coming+Soon";
 
   return (
     <div className="min-h-screen bg-transparent text-slate-100 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto space-y-4">
         
-        {/* Page Header with CanvasText */}
         <div className="text-center max-w-4xl mx-auto flex flex-col items-center justify-center">
           <div className="w-full flex items-center justify-center min-h-[90px] sm:min-h-[120px]">
             <CanvasText 
@@ -194,7 +241,6 @@ export default function EventsPage() {
           </div>
         </div>
 
-        {/* Upcoming Events Section with CurvedTextLoop */}
         <div className="space-y-4 pt-1 pb-2">
           <div className="w-full flex flex-col items-center justify-center overflow-hidden">
             <CurvedTextLoop 
@@ -214,18 +260,17 @@ export default function EventsPage() {
                   spotlightColor="rgba(255, 121, 0, 0.25)"
                   className="group relative cursor-pointer hover:border-[#ff7900]/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#ff7900]/10"
                 >
-                  {/* Full Poster Aspect Container */}
                   <div className="relative aspect-[3/4] w-full overflow-hidden bg-black">
                     <img
-                      src={event.poster || "/events/posters/decrypta.webp"}
+                      src={event.poster ? getOptimizedImage(event.poster) : placeholderImage}
                       alt={event.title}
+                      loading="lazy"
                       className="w-full h-full object-cover opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = "/events/posters/decrypta.webp";
+                        (e.target as HTMLImageElement).src = placeholderImage;
                       }}
                     />
 
-                    {/* Top Status & Category Badges */}
                     <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10">
                       <span className="px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-black/80 backdrop-blur-md text-[#ff7900] border border-[#ff7900]/40 uppercase">
                         {event.category}
@@ -235,10 +280,8 @@ export default function EventsPage() {
                       </span>
                     </div>
 
-                    {/* Bottom Dark Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent pointer-events-none" />
 
-                    {/* Overlay Title */}
                     <div className="absolute bottom-0 left-0 right-0 p-5 space-y-3 z-10">
                       <h3 className="text-2xl font-black text-white tracking-tight drop-shadow-md group-hover:text-[#ff7900] transition-colors">
                         {event.title}
@@ -256,9 +299,7 @@ export default function EventsPage() {
           )}
         </div>
 
-        {/* Filter Navigation Bar (Rudra's Style) */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#161922]/80 p-3 rounded-2xl border border-slate-800 backdrop-blur-md">
-          {/* Year Filter Buttons */}
           <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0">
             {availableYears.map((year) => (
               <button
@@ -275,7 +316,6 @@ export default function EventsPage() {
             ))}
           </div>
 
-          {/* Single Unified Events Search Bar */}
           <div className="relative w-full sm:w-80">
             <Search className="w-4 h-4 absolute left-3.5 top-3 text-[#ff7900] pointer-events-none" />
             <input
@@ -297,7 +337,6 @@ export default function EventsPage() {
           </div>
         </div>
 
-        {/* Events Cards Grid (Rudra's Signature Card Layout) */}
         {loading ? (
           <div className="flex items-center justify-center py-20 text-[#ff7900]">
             <span className="animate-pulse font-mono tracking-widest uppercase flex items-center gap-2 text-sm">
@@ -314,18 +353,17 @@ export default function EventsPage() {
                   spotlightColor="rgba(255, 121, 0, 0.25)"
                   className="group relative cursor-pointer hover:border-[#ff7900]/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#ff7900]/10"
                 >
-                  {/* Poster Aspect Container */}
                   <div className="relative aspect-[3/4] w-full overflow-hidden bg-black">
                     <img
-                      src={event.poster || "/events/posters/decrypta.webp"}
+                      src={event.poster ? getOptimizedImage(event.poster) : placeholderImage}
                       alt={event.title}
+                      loading="lazy"
                       className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = "/events/posters/decrypta.webp";
+                        (e.target as HTMLImageElement).src = placeholderImage;
                       }}
                     />
 
-                    {/* Top Status & Category Badges */}
                     <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10">
                       <span className="px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-black/75 backdrop-blur-md text-[#ff7900] border border-[#ff7900]/40">
                         {event.category}
@@ -339,16 +377,13 @@ export default function EventsPage() {
                       </span>
                     </div>
 
-                    {/* Bottom Dark Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent pointer-events-none" />
 
-                    {/* Overlay Title & Tags */}
                     <div className="absolute bottom-0 left-0 right-0 p-5 space-y-2 z-10">
                       <h3 className="text-2xl font-black text-white tracking-tight drop-shadow-md group-hover:text-[#ff7900] transition-colors">
                         {event.title}
                       </h3>
 
-                      {/* Tags Pills Row */}
                       {event.tags && event.tags.length > 0 && (
                         <div className="flex flex-wrap items-center gap-1.5 pt-1">
                           {event.tags.map((tag) => (
@@ -378,21 +413,18 @@ export default function EventsPage() {
         )}
       </div>
 
-      {/* Single-Screen Side-by-Side Event Details Modal */}
       {selectedEventForCertificate && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
           <div className="relative w-full max-w-5xl h-[90vh] max-h-[640px] bg-[#0d0e15] border border-[#ff7900]/40 rounded-3xl p-5 sm:p-6 shadow-2xl overflow-hidden flex flex-col justify-between">
             
-            {/* Background Event Poster Accent Overlay */}
             <div
               className="absolute inset-0 z-0 opacity-15 pointer-events-none bg-cover bg-center filter blur-3xl transform scale-110"
               style={{
-                backgroundImage: `url(${selectedEventForCertificate.poster || "/events/posters/decrypta.webp"})`,
+                backgroundImage: `url(${selectedEventForCertificate.poster ? getOptimizedImage(selectedEventForCertificate.poster) : placeholderImage})`,
               }}
             />
             <div className="absolute inset-0 z-0 bg-gradient-to-b from-[#0d0e15]/95 via-[#0d0e15]/90 to-[#0d0e15] pointer-events-none" />
 
-            {/* Modal Top Close Button */}
             <button
               onClick={() => setSelectedEventForCertificate(null)}
               className="absolute top-4 right-4 z-30 p-2 rounded-xl text-slate-400 hover:text-white hover:bg-zinc-800 transition-colors shrink-0 cursor-pointer"
@@ -401,29 +433,25 @@ export default function EventsPage() {
               <X className="w-5 h-5" />
             </button>
 
-            {/* Main Content Grid: Left Half Poster, Right Half Info */}
             <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 h-full items-stretch overflow-hidden">
               
-              {/* LEFT HALF: Official Event Poster */}
               <div className="bg-black/70 rounded-2xl border border-zinc-800/80 p-3 sm:p-4 flex flex-col items-center justify-center relative overflow-hidden h-full">
                 <div className="relative w-full h-full max-h-[520px] flex items-center justify-center">
                   <img
-                    src={selectedEventForCertificate.poster || "/events/posters/decrypta.webp"}
+                    src={selectedEventForCertificate.poster ? getOptimizedImage(selectedEventForCertificate.poster) : placeholderImage}
                     alt={selectedEventForCertificate.title}
+                    loading="lazy"
                     className="max-h-full max-w-full object-contain rounded-xl border border-[#ff7900]/30 shadow-[0_0_30px_rgba(255,121,0,0.15)]"
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = "/events/posters/decrypta.webp";
+                      (e.target as HTMLImageElement).src = placeholderImage;
                     }}
                   />
                 </div>
               </div>
 
-              {/* RIGHT HALF: Details, Dates, Venue & Download Certificate Section */}
               <div className="flex flex-col justify-between h-full space-y-4 overflow-y-auto pr-1">
                 
-                {/* TOP: Badges, Title, Description, Date & Venue */}
                 <div className="space-y-3.5">
-                  {/* Category & Status Badges */}
                   <div className="flex items-center gap-2 pr-10">
                     <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#ff7900]/20 text-[#ff7900] border border-[#ff7900]/40">
                       {selectedEventForCertificate.category}
@@ -433,7 +461,6 @@ export default function EventsPage() {
                     </span>
                   </div>
 
-                  {/* Title */}
                   <div>
                     <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
                       {selectedEventForCertificate.title}
@@ -443,7 +470,6 @@ export default function EventsPage() {
                     </p>
                   </div>
 
-                  {/* Date, Time & Venue */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 bg-[#161922]/90 p-3 rounded-xl border border-zinc-800/80 text-xs font-mono text-slate-300">
                     <div className="flex items-center gap-2.5">
                       <Calendar className="w-4 h-4 text-[#ff7900] shrink-0" />
@@ -461,7 +487,6 @@ export default function EventsPage() {
                     </div>
                   </div>
 
-                  {/* Tags */}
                   {selectedEventForCertificate.tags && selectedEventForCertificate.tags.length > 0 && (
                     <div className="flex flex-wrap items-center gap-1.5 pt-1">
                       {selectedEventForCertificate.tags.map((tag) => (
@@ -476,9 +501,7 @@ export default function EventsPage() {
                   )}
                 </div>
 
-                {/* Conditional Rendering based on Event Status */}
                 {selectedEventForCertificate.status === "Upcoming" || selectedEventForCertificate.status === "Ongoing" ? (
-                  /* UPCOMING / ONGOING EVENTS: Register Now Button Only */
                   <div className="pt-4 border-t border-zinc-800/80">
                     <button
                       onClick={() => router.push(`/events/forms?eventId=${selectedEventForCertificate.id}`)}
@@ -489,9 +512,7 @@ export default function EventsPage() {
                     </button>
                   </div>
                 ) : (
-                  /* COMPLETED EVENTS: More Details & Download Certificate Section */
                   <>
-                    {/* More Details Expandable Section */}
                     <div className="space-y-2 pt-2 border-t border-zinc-800/80">
                       <button
                         onClick={() => setShowMoreDetails(!showMoreDetails)}
@@ -518,7 +539,6 @@ export default function EventsPage() {
                             selectedEventForCertificate.extraDetails
                           ) ? (
                             <>
-                              {/* Prize Pool */}
                               {selectedEventForCertificate.prizePool && (
                                 <div className="flex items-center gap-2 text-[#ff7900] bg-[#ff7900]/10 p-2.5 rounded-lg border border-[#ff7900]/20">
                                   <Gift className="w-4 h-4 shrink-0 text-[#ff7900]" />
@@ -527,7 +547,6 @@ export default function EventsPage() {
                                 </div>
                               )}
 
-                              {/* Winners Leaderboard */}
                               {selectedEventForCertificate.winners && selectedEventForCertificate.winners.length > 0 && (
                                 <div className="space-y-1.5 pt-1">
                                   <div className="flex items-center gap-2 font-bold text-amber-400">
@@ -545,7 +564,6 @@ export default function EventsPage() {
                                 </div>
                               )}
 
-                              {/* Judges Panel */}
                               {selectedEventForCertificate.judges && selectedEventForCertificate.judges.length > 0 && (
                                 <div className="space-y-1.5 pt-1">
                                   <div className="flex items-center gap-2 font-bold text-sky-400">
@@ -562,7 +580,6 @@ export default function EventsPage() {
                                 </div>
                               )}
 
-                              {/* Speaker / Host */}
                               {selectedEventForCertificate.speaker && (
                                 <div className="flex items-center gap-2 pt-1">
                                   <Mic className="w-4 h-4 text-[#ff7900] shrink-0" />
@@ -571,7 +588,6 @@ export default function EventsPage() {
                                 </div>
                               )}
 
-                              {/* Extra Details */}
                               {selectedEventForCertificate.extraDetails && (
                                 <div className="pt-2 text-slate-400 text-[11px] leading-relaxed border-t border-zinc-800/60 flex items-start gap-1.5 font-sans">
                                   <Sparkles className="w-3.5 h-3.5 text-[#ff7900] shrink-0 mt-0.5" />
@@ -589,7 +605,6 @@ export default function EventsPage() {
                       )}
                     </div>
 
-                    {/* BOTTOM: Download Certificate Section */}
                     <div className="space-y-3 pt-1">
                       {!showCertInput ? (
                         <button
@@ -633,7 +648,6 @@ export default function EventsPage() {
                             </div>
                           </form>
 
-                          {/* Verification Status Feedback */}
                           {hasSearched && (
                             <div className="pt-1">
                               {verifiedCert ? (
@@ -674,7 +688,6 @@ export default function EventsPage() {
                   </>
                 )}
 
-                {/* Bottom Close Button */}
                 <div className="flex justify-end pt-1">
                   <button
                     onClick={() => setSelectedEventForCertificate(null)}
@@ -687,7 +700,6 @@ export default function EventsPage() {
 
             </div>
 
-            {/* Hidden Certificate SVG for export rendering */}
             {verifiedCert && (
               <div style={{ display: "none" }}>
                 <svg

@@ -117,7 +117,7 @@ function FlipCard({ name, role, photo, linkedin, github, instagram, quote, disab
   };
 
   const frontContent = (
-    <div className="relative w-full h-full bg-neutral-950/70 backdrop-blur-xl flex flex-col justify-end overflow-hidden rounded-2xl border border-white/15 group-hover:border-orange-500/60 shadow-[0_8px_32px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.2)] transition-all duration-300">
+    <div className="relative w-full h-full bg-neutral-950/70 flex flex-col justify-end overflow-hidden rounded-2xl border border-white/15 group-hover:border-orange-500/60 shadow-[0_8px_32px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.2)] transition-all duration-300">
       {/* Specular Glass Sheen Highlight */}
       <div className="absolute top-0 inset-x-0 h-1/2 bg-gradient-to-b from-white/15 via-white/5 to-transparent pointer-events-none z-10" />
 
@@ -134,7 +134,7 @@ function FlipCard({ name, role, photo, linkedin, github, instagram, quote, disab
       </div>
 
       {/* Member Details Overlay */}
-      <div className="relative z-20 p-5 space-y-1 text-left backdrop-blur-[2px]">
+      <div className="relative z-20 p-5 space-y-1 text-left">
         <div className="text-base font-bold text-white group-hover:text-orange-400 transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">{name}</div>
         <div className="w-8 h-[2px] bg-gradient-to-r from-[#ff7900] to-amber-300 rounded-full" />
         <div className="text-[10px] uppercase tracking-widest text-slate-300 font-mono">{role}</div>
@@ -142,17 +142,17 @@ function FlipCard({ name, role, photo, linkedin, github, instagram, quote, disab
         {hasLinks && (
           <div data-no-flip="true" className="flex gap-1.5 pt-2 relative z-30 pointer-events-auto">
             {safeLinkedin && (
-              <a data-no-flip="true" href={safeLinkedin} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="p-1.5 rounded-md bg-white/15 hover:bg-[#ff7900] hover:text-black transition-colors text-white backdrop-blur-md border border-white/10">
+              <a data-no-flip="true" href={safeLinkedin} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="p-1.5 rounded-md bg-white/15 hover:bg-[#ff7900] hover:text-black transition-colors text-white border border-white/10">
                 <LinkedInIcon />
               </a>
             )}
             {safeGithub && (
-              <a data-no-flip="true" href={safeGithub} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="p-1.5 rounded-md bg-white/15 hover:bg-[#ff7900] hover:text-black transition-colors text-white backdrop-blur-md border border-white/10">
+              <a data-no-flip="true" href={safeGithub} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="p-1.5 rounded-md bg-white/15 hover:bg-[#ff7900] hover:text-black transition-colors text-white border border-white/10">
                 <GitHubIcon />
               </a>
             )}
             {safeInstagram && (
-              <a data-no-flip="true" href={safeInstagram} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="p-1.5 rounded-md bg-white/15 hover:bg-[#ff7900] hover:text-black transition-colors text-white backdrop-blur-md border border-white/10">
+              <a data-no-flip="true" href={safeInstagram} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="p-1.5 rounded-md bg-white/15 hover:bg-[#ff7900] hover:text-black transition-colors text-white border border-white/10">
                 <InstagramIcon />
               </a>
             )}
@@ -176,7 +176,7 @@ function FlipCard({ name, role, photo, linkedin, github, instagram, quote, disab
           transition: "transform 0.1s ease-out",
         }}
       >
-        <div className="w-full h-full rounded-2xl border border-white/20 hover:border-orange-500/60 overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.2)] transition-all duration-300 bg-neutral-950/70 backdrop-blur-xl">
+        <div className="w-full h-full rounded-2xl border border-white/20 hover:border-orange-500/60 overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.2)] transition-all duration-300 bg-neutral-950/70">
           {frontContent}
         </div>
       </div>
@@ -227,7 +227,7 @@ function FlipCard({ name, role, photo, linkedin, github, instagram, quote, disab
         pixelColor="#ff7900"
         animationStepDuration={0.4}
         aspectRatio="0"
-        className="w-full h-full rounded-2xl border border-white/20 hover:border-orange-500/60 overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.2)] bg-neutral-950/70 backdrop-blur-xl transition-all duration-300"
+        className="w-full h-full rounded-2xl border border-white/20 hover:border-orange-500/60 overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.2)] bg-neutral-950/70 transition-all duration-300"
       />
     </div>
   );
@@ -283,19 +283,19 @@ const teamData: Record<string, TeamMember[]> = {
     { name: "Ananye Verma", post: "Head of Operations & Logistics", quote: "Always ready for an event !!", linkedin: "https://www.linkedin.com/in/ananye-verma-0b634237b", instagram: "https://www.instagram.com/ananyeverma_142", photo: "" }
   ],
   "Joint Heads": [
-    { name: "Jyothi Anand", post: "Joint Head of Events", quote: "We are the masters of our fate and the captains of our souls", linkedin: "https://www.linkedin.com/in/jyothi-a-6884163b9", photo: "" },
+    { name: "Jyothi Anand", post: "Joint Head of Events", quote: "We are the masters of our fate and the captains of our souls", linkedin: "https://www.linkedin.com/in/jyothi-a-6884163b9", photo: "https://res.cloudinary.com/oam5zdcg/image/upload/v1791036411/Jyothi_Anand_-_Jyothi.jpg" },
     { name: "Yash Yadav", post: "Joint Head of Events", quote: "Stay curious. Keep building", linkedin: "https://www.linkedin.com/in/yash-yadav-28566b3a9", instagram: "https://www.instagram.com/yashyadav_6", photo: "" },
     { name: "Priyansh Agarwal", post: "Joint Head of Programs", quote: "Turning ideas into experiences, one program at a time. Building, leading, and creating with the CYBER SPACE CLUB.", linkedin: "https://www.linkedin.com/in/priyansh-agarwal-512999365", photo: "" },
     { name: "Harshit Dubey", post: "Joint Head of Programs", quote: "Tech in my mind, creativity in my lens, and leadership in everything I do.", linkedin: "https://www.linkedin.com/in/harshit-dubey-03073339b", instagram: "https://www.instagram.com/hars4t", photo: "" },
     { name: "Snehal Singh", post: "Joint Head of Programs", quote: "Don't stress do your best forget the rest", instagram: "https://www.instagram.com/tanusingh_0205", photo: "" },
-    { name: "Samyukta Basu", post: "Joint Head of Marketing", quote: "Building, exploring, and leaving a little room for the unexpected.", linkedin: "https://www.linkedin.com/in/samyukta-basu-79656329a", instagram: "https://www.instagram.com/_samyukta__", photo: "" },
-    { name: "Rudra Pratap Singh", post: "Joint Head of Technical", quote: "Expect disappointment so that you can never be disappointed", linkedin: "https://www.linkedin.com/in/rudra-pratap-singh-8523502b6", instagram: "https://www.instagram.com/rudrapratapsingh.725", github: "https://github.com/Rudra-25-12", photo: "" },
+    { name: "Samyukta Basu", post: "Joint Head of Marketing", quote: "Building, exploring, and leaving a little room for the unexpected.", linkedin: "https://www.linkedin.com/in/samyukta-basu-79656329a", instagram: "https://www.instagram.com/_samyukta__", photo: "https://res.cloudinary.com/oam5zdcg/image/upload/v1791012770/samyukta.jpg" },
+    { name: "Rudra Pratap Singh", post: "Joint Head of Technical", quote: "Expect disappointment so that you can never be disappointed", linkedin: "https://www.linkedin.com/in/rudra-pratap-singh-8523502b6", instagram: "https://www.instagram.com/rudrapratapsingh.725", github: "https://github.com/Rudra-25-12", photo: "https://res.cloudinary.com/oam5zdcg/image/upload/v1791026178/IMG_0413_-_Rudra_Pratap_Singh.jpg" },
     { name: "Ojash Bhatnagar", post: "Joint Head of Technical", quote: "Here for the plot", linkedin: "https://www.linkedin.com/in/ojash-bhatnagar-35b37a380", photo: "" },
     { name: "Pradyumn Kabra", post: "Joint Head of Technical", quote: "Turning ideas into code, and challenges into opportunities.", linkedin: "https://www.linkedin.com/in/pradyumn-kabra-b17386233/", instagram: "https://www.instagram.com/pradyumn.ka6ra", photo: "" },
-    { name: "Shubhangi Kesharwani", post: "Joint Head of Research & Development", quote: "A lifelong apprentice to the art of figuring things out.", linkedin: "https://www.linkedin.com/in/shubhangi-kesharwani-363189383/", instagram: "https://www.instagram.com/shubhangik_21/", github: "https://github.com/ShubhangiK06", photo: "" },
-    { name: "Riya Kumari", post: "Joint Head of Research & Development", quote: "Books taught me that softness and strength can coexist. I’ve been a fan of both ever since.", linkedin: "https://www.linkedin.com/in/riya-kumari-5b302239a", github: "https://github.com/riyakumarif5-stack", photo: "" },
+    { name: "Shubhangi Kesharwani", post: "Joint Head of Research & Development", quote: "A lifelong apprentice to the art of figuring things out.", linkedin: "https://www.linkedin.com/in/shubhangi-kesharwani-363189383/", instagram: "https://www.instagram.com/shubhangik_21/", github: "https://github.com/ShubhangiK06", photo: "https://res.cloudinary.com/oam5zdcg/image/upload/v1791014825/Me_-_Shubhangi_Kesharwani.jpg" },
+    { name: "Riya Kumari", post: "Joint Head of Research & Development", quote: "Books taught me that softness and strength can coexist. I’ve been a fan of both ever since.", linkedin: "https://www.linkedin.com/in/riya-kumari-5b302239a", github: "https://github.com/riyakumarif5-stack", photo: "https://res.cloudinary.com/oam5zdcg/image/upload/v1791014825/Riyakumari3_-_Riya_Kumari.jpg" },
     { name: "Sanaya Muchhal", post: "Joint Head of Corporate Affairs", quote: "A little curious about everything.", photo: "" },
-    { name: "Chetna Sharma", post: "Joint Head of Graphic Design", quote: "My energy is unlimited, my motivation is missing, and my questions are never-ending.", instagram: "https://www.instagram.com/sleepdeprived_91", photo: "" },
+    { name: "Chetna Sharma", post: "Joint Head of Graphic Design", quote: "My energy is unlimited, my motivation is missing, and my questions are never-ending.", instagram: "https://www.instagram.com/sleepdeprived_91", photo: "https://res.cloudinary.com/oam5zdcg/image/upload/v1791012371/ChatGPT_Image_Jan_24_2026_12_56_42_PM_-_chetna_sharma.png" },
     { name: "Nitigya Surana", post: "Joint Head of Graphic Design", quote: "Design is not just what it looks like and feels like. Design is how it works", linkedin: "https://www.linkedin.com/in/nitigya-surana-5b75a3379", instagram: "https://www.instagram.com/nitigya_0607", photo: "" },
     { name: "Aamya Sinha", post: "Graphic Design Team", quote: "Every human is the writer of their own story.", photo: "" },
     { name: "Aadarsh Kumar", post: "Graphic Design Team", quote: "Jack of all trait master of none but often times better than master of one", instagram: "https://www.instagram.com/aadarsh.kur", photo: "" },
@@ -306,7 +306,7 @@ const teamData: Record<string, TeamMember[]> = {
   "Senior Co-ordinators": [
     { name: "Mayank Pramanick", post: "Senior Coordinator of Programs", photo: "" },
     { name: "Jiya Chhabra", post: "Senior Coordinator Marketing", quote: "Somewhere between figuring it all out and making it happen.", photo: "" },
-    { name: "Aditya Tripathi", post: "Senior Coordinator Technical", quote: "Turning curiosity into code and ideas into reality.", linkedin: "http://www.linkedin.com/in/aditya-tripathi-922a2429a", instagram: "aditya._tripathi._", github: "Aditya6743", photo: "" },
+    { name: "Aditya Tripathi", post: "Senior Coordinator Technical", quote: "Turning curiosity into code and ideas into reality.", linkedin: "http://www.linkedin.com/in/aditya-tripathi-922a2429a", instagram: "aditya._tripathi._", github: "Aditya6743", photo: "https://res.cloudinary.com/oam5zdcg/image/upload/v1791033820/Lodu_aditya.jpg" },
     { name: "Mohammad Faisal", post: "Senior Coordinator Technical", photo: "" },
     { name: "Satyam Jha", post: "Senior Coordinator Research & Development", photo: "" },
     { name: "Saumya Singh", post: "Senior Coordinator Media", photo: "" },

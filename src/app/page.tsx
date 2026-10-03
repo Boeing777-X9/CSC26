@@ -12,7 +12,7 @@ import WhatIsCyberSec from "@/components/home/WhatIsCyberSec";
 import CyberDomains from "@/components/home/CyberDomains";
 import LoginTransition from "@/components/auth/LoginTransition";
 import ShinyButton from "@/components/ui/shiny-button";
-import { Calendar, Lock, ArrowRight } from "lucide-react";
+import { Calendar, Lock, ArrowRight, ChevronDown } from "lucide-react";
 
 // Dynamic import for WebGL and Canvas heavy components to speed up initial page load
 
@@ -98,6 +98,18 @@ export default function HomePage() {
           <div className="w-full max-w-2xl mx-auto pt-2">
             <NetworkLearnBuild />
           </div>
+
+          {/* Animated Scroll Down Indicator */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, y: [0, 6, 0] }}
+            transition={{ y: { duration: 1.5, repeat: Infinity, ease: "easeInOut" }, opacity: { duration: 0.8 } }}
+            className="pt-4 flex flex-col items-center gap-1 text-[#FF8C32] text-xs font-mono uppercase tracking-widest cursor-pointer hover:text-white transition-colors"
+            onClick={() => window.scrollTo({ top: window.innerHeight * 0.8, behavior: 'smooth' })}
+          >
+            <span>Scroll To Discover</span>
+            <ChevronDown className="w-4 h-4 text-[#FF8C32]" />
+          </motion.div>
         </motion.div>
       </section>
 

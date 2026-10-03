@@ -19,4 +19,3 @@ export default function AdminLoginPage() {
       <button onClick={handleGoogleLogin}>Sign in with Google</button>
     </div>
   );
-}
