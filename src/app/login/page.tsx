@@ -1,4 +1,3 @@
-
 "use client";
 
 import { createClient } from "@/lib/supabase/client";
@@ -14,7 +13,6 @@ export default function LoginPage() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        // This tells Supabase where to send the user after Google approves them
         redirectTo: `${window.location.origin}/auth/callback?next=/admin`,
       },
     });
