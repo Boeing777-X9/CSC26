@@ -268,8 +268,8 @@ const teamData: Record<string, TeamMember[]> = {
     { name: "Anhadbani Anand", post: "Advisory", photo: "" }
   ],
   "Community Managers": [
-    { name: "Manish Kumar Pandey", post: "Community Manager", quote: "I don’t wait for a role to give me responsibility; I take responsibility and make the role matter.", linkedin: "https://www.linkedin.com/in/manish-kumar-pandey-a0ba98378", instagram: "https://www.instagram.com/itz.me_manish.7", photo: "" },
-    { name: "Suhani Rusia", post: "Community Manager", quote: "Connect. Collaborate. Create.", photo: "" }
+    { name: "Manish Kumar Pandey", post: "Community Manager", quote: "I don’t wait for a role to give me responsibility; I take responsibility and make the role matter.", linkedin: "https://www.linkedin.com/in/manish-kumar-pandey-a0ba98378", instagram: "https://www.instagram.com/itz.me_manish.7", photo: "https://res.cloudinary.com/oam5zdcg/image/upload/v1791111026/IMG_20250521_071051_-_Manish_Kumar.jpg" },
+    { name: "Suhani Rusia", post: "Community Manager", quote: "Connect. Collaborate. Create.", photo: "https://res.cloudinary.com/oam5zdcg/image/upload/v1791111027/IMG-20250618-WA0009_-_Suhani_Rusia.jpg" }
   ],
   "Heads": [
     { name: "Manas Malhotra", post: "Head of Events", photo: "" },
@@ -277,25 +277,22 @@ const teamData: Record<string, TeamMember[]> = {
     { name: "Parisikha Jain", post: "Head of Marketing", quote: "Creating, connecting, and turning ideas into something people remember.", linkedin: "https://www.linkedin.com/in/parisikha-jain-b46504413", instagram: "https://www.instagram.com/parisikha_20", photo: "" },
     { name: "Manshi Singh", post: "Technical Head", photo: "" },
     { name: "Sarthak Agrawal", post: "Head of Research & Development", quote: "Some days are heavy, and that's okay.", linkedin: "https://www.linkedin.com/in/sarthak-agrawal-83074437b", instagram: "https://www.instagram.com/sarthak_leo2", github: "https://github.com/sarthak6244", photo: "" },
-    { name: "Siddharth Singh", post: "Head of Corporate Affairs", photo: "" },
     { name: "Suyash Sharma", post: "Head of Media", photo: "" },
-    { name: "Prakhar Yadav", post: "Head of Curations", photo: "" },
     { name: "Ananye Verma", post: "Head of Operations & Logistics", quote: "Always ready for an event !!", linkedin: "https://www.linkedin.com/in/ananye-verma-0b634237b", instagram: "https://www.instagram.com/ananyeverma_142", photo: "" }
   ],
   "Joint Heads": [
     { name: "Jyothi Anand", post: "Joint Head of Events", quote: "We are the masters of our fate and the captains of our souls", linkedin: "https://www.linkedin.com/in/jyothi-a-6884163b9", photo: "https://res.cloudinary.com/oam5zdcg/image/upload/v1791036411/Jyothi_Anand_-_Jyothi.jpg" },
-    { name: "Yash Yadav", post: "Joint Head of Events", quote: "Stay curious. Keep building", linkedin: "https://www.linkedin.com/in/yash-yadav-28566b3a9", instagram: "https://www.instagram.com/yashyadav_6", photo: "" },
-    { name: "Priyansh Agarwal", post: "Joint Head of Programs", quote: "Turning ideas into experiences, one program at a time. Building, leading, and creating with the CYBER SPACE CLUB.", linkedin: "https://www.linkedin.com/in/priyansh-agarwal-512999365", photo: "" },
-    { name: "Harshit Dubey", post: "Joint Head of Programs", quote: "Tech in my mind, creativity in my lens, and leadership in everything I do.", linkedin: "https://www.linkedin.com/in/harshit-dubey-03073339b", instagram: "https://www.instagram.com/hars4t", photo: "" },
-    { name: "Snehal Singh", post: "Joint Head of Programs", quote: "Don't stress do your best forget the rest", instagram: "https://www.instagram.com/tanusingh_0205", photo: "" },
+    { name: "Yash Yadav", post: "Joint Head of Events", quote: "Stay curious. Keep building", linkedin: "https://www.linkedin.com/in/yash-yadav-28566b3a9", instagram: "https://www.instagram.com/yashyadav_6", photo: "https://res.cloudinary.com/oam5zdcg/image/upload/v1791110710/Yash.jpg" },
+    { name: "Priyansh Agarwal", post: "Joint Head of Programs", quote: "Turning ideas into experiences, one program at a time. Building, leading, and creating with the CYBER SPACE CLUB.", linkedin: "https://www.linkedin.com/in/priyansh-agarwal-512999365", photo: "https://res.cloudinary.com/oam5zdcg/image/upload/v1791110709/IMG_2801_-_Priyansh_Agarwal.jpg" },
+    { name: "Harshit Dubey", post: "Joint Head of Programs", quote: "Tech in my mind, creativity in my lens, and leadership in everything I do.", linkedin: "https://www.linkedin.com/in/harshit-dubey-03073339b", instagram: "https://www.instagram.com/hars4t", photo: "https://res.cloudinary.com/oam5zdcg/image/upload/v1791110707/dubey_harshit.jpg" },
+    { name: "Snehal Singh", post: "Joint Head of Programs", quote: "Don't stress do your best forget the rest", instagram: "https://www.instagram.com/tanusingh_0205", photo: "https://res.cloudinary.com/oam5zdcg/image/upload/v1791110706/IMG-20260121-WA0050_-_Snehal_Singh.jpg" },
     { name: "Samyukta Basu", post: "Joint Head of Marketing", quote: "Building, exploring, and leaving a little room for the unexpected.", linkedin: "https://www.linkedin.com/in/samyukta-basu-79656329a", instagram: "https://www.instagram.com/_samyukta__", photo: "https://res.cloudinary.com/oam5zdcg/image/upload/v1791012770/samyukta.jpg" },
     { name: "Rudra Pratap Singh", post: "Joint Head of Technical", quote: "Expect disappointment so that you can never be disappointed", linkedin: "https://www.linkedin.com/in/rudra-pratap-singh-8523502b6", instagram: "https://www.instagram.com/rudrapratapsingh.725", github: "https://github.com/Rudra-25-12", photo: "https://res.cloudinary.com/oam5zdcg/image/upload/v1791026178/IMG_0413_-_Rudra_Pratap_Singh.jpg" },
-    { name: "Ojash Bhatnagar", post: "Joint Head of Technical", quote: "Here for the plot", linkedin: "https://www.linkedin.com/in/ojash-bhatnagar-35b37a380", photo: "" },
-    { name: "Pradyumn Kabra", post: "Joint Head of Technical", quote: "Turning ideas into code, and challenges into opportunities.", linkedin: "https://www.linkedin.com/in/pradyumn-kabra-b17386233/", instagram: "https://www.instagram.com/pradyumn.ka6ra", photo: "" },
+    { name: "Ojash Bhatnagar", post: "Joint Head of Technical", quote: "Here for the plot", linkedin: "https://www.linkedin.com/in/ojash-bhatnagar-35b37a380", photo: "https://res.cloudinary.com/oam5zdcg/image/upload/v1791111189/IMG_20260905_010414_-_Ojash_Bhatnagar.jpg" },
+    { name: "Pradyumn Kabra", post: "Joint Head of Technical", quote: "Turning ideas into code, and challenges into opportunities.", linkedin: "https://www.linkedin.com/in/pradyumn-kabra-b17386233/", instagram: "https://www.instagram.com/pradyumn.ka6ra", photo: "https://res.cloudinary.com/oam5zdcg/image/upload/v1791111062/pradyumn.jpg" },
     { name: "Shubhangi Kesharwani", post: "Joint Head of Research & Development", quote: "A lifelong apprentice to the art of figuring things out.", linkedin: "https://www.linkedin.com/in/shubhangi-kesharwani-363189383/", instagram: "https://www.instagram.com/shubhangik_21/", github: "https://github.com/ShubhangiK06", photo: "https://res.cloudinary.com/oam5zdcg/image/upload/v1791014825/Me_-_Shubhangi_Kesharwani.jpg" },
     { name: "Riya Kumari", post: "Joint Head of Research & Development", quote: "Books taught me that softness and strength can coexist. I’ve been a fan of both ever since.", linkedin: "https://www.linkedin.com/in/riya-kumari-5b302239a", github: "https://github.com/riyakumarif5-stack", photo: "https://res.cloudinary.com/oam5zdcg/image/upload/v1791014825/Riyakumari3_-_Riya_Kumari.jpg" },
     { name: "Sanaya Muchhal", post: "Joint Head of Corporate Affairs", quote: "A little curious about everything.", photo: "" },
-    { name: "Chetna Sharma", post: "Joint Head of Graphic Design", quote: "My energy is unlimited, my motivation is missing, and my questions are never-ending.", instagram: "https://www.instagram.com/sleepdeprived_91", photo: "https://res.cloudinary.com/oam5zdcg/image/upload/v1791012371/ChatGPT_Image_Jan_24_2026_12_56_42_PM_-_chetna_sharma.png" },
     { name: "Nitigya Surana", post: "Joint Head of Graphic Design", quote: "Design is not just what it looks like and feels like. Design is how it works", linkedin: "https://www.linkedin.com/in/nitigya-surana-5b75a3379", instagram: "https://www.instagram.com/nitigya_0607", photo: "" },
     { name: "Aamya Sinha", post: "Graphic Design Team", quote: "Every human is the writer of their own story.", photo: "" },
     { name: "Aadarsh Kumar", post: "Graphic Design Team", quote: "Jack of all trait master of none but often times better than master of one", instagram: "https://www.instagram.com/aadarsh.kur", photo: "" },
@@ -347,7 +344,7 @@ export default function TeamPage() {
         {/* 1. Faculty Coordinators */}
         <div className="relative flex flex-col items-center w-full p-8 md:p-12 rounded-3xl bg-neutral-950/40 border border-white/10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,255,255,0.15)]">
           <SectionHeader title="Faculty Coordinators" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full justify-items-center">
+          <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-8 w-full max-w-[1024px] mx-auto">
             {teamData["Faculty Coordinators"].map((member, i) => (
               <div className="w-[220px] h-[300px]" key={i}>
                 <FlipCard {...member} role={member.post} disableFlip />
@@ -359,7 +356,7 @@ export default function TeamPage() {
         {/* 2. DSW */}
         <div className="relative flex flex-col items-center w-full p-8 md:p-12 rounded-3xl bg-neutral-950/40 border border-white/10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,255,255,0.15)]">
           <SectionHeader title="Directorate of Student's Welfare" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 w-full justify-items-center">
+          <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-8 w-full max-w-[780px] mx-auto">
             {teamData["DSW"].map((member, i) => (
               <div className="w-[220px] h-[300px]" key={i}>
                 <FlipCard {...member} role={member.post} disableFlip />
@@ -382,8 +379,8 @@ export default function TeamPage() {
             ))}
           </div>
 
-          {/* Core Execs */}
-          <div className="gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-items-center w-full">
+          {/* Core Execs (3 per row) */}
+          <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-8 w-full max-w-[780px] mx-auto">
             {execRest.map((member, i) => (
               <div className="w-[220px] h-[300px]" key={i}>
                 <FlipCard {...member} role={member.post} />
@@ -394,15 +391,15 @@ export default function TeamPage() {
 
         {/* Helper mapping for standard sections */}
         {[
-          { title: "ADVISORY BOARD", data: teamData["Advisory Board"], disableFlip: true },
-          { title: "COMMUNITY MANAGERS", data: teamData["Community Managers"] },
-          { title: "HEADS", data: teamData["Heads"] },
-          { title: "JOINT HEADS", data: teamData["Joint Heads"] },
-          { title: "SENIOR CO-ORDINATORS", data: teamData["Senior Co-ordinators"] },
+          { title: "ADVISORY BOARD", data: teamData["Advisory Board"], disableFlip: true, maxW: "max-w-[1024px]" },
+          { title: "COMMUNITY MANAGERS", data: teamData["Community Managers"], maxW: "max-w-[1024px]" },
+          { title: "HEADS", data: teamData["Heads"], maxW: "max-w-[1024px]" }, // 4 in a row
+          { title: "JOINT HEADS", data: teamData["Joint Heads"], maxW: "max-w-[1280px]" }, // 5 in a row
+          { title: "SENIOR CO-ORDINATORS", data: teamData["Senior Co-ordinators"], maxW: "max-w-[1280px]" }, // 5 in a row
         ].map((section, idx) => (
           <div key={idx} className="flex flex-col justify-center items-center w-full my-2">
             <SectionHeader title={section.title} />
-            <div className="gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center w-full">
+            <div className={`flex flex-wrap justify-center items-center gap-6 sm:gap-8 w-full ${section.maxW} mx-auto`}>
               {section.data.map((member, i) => (
                 <div className="w-[220px] h-[300px]" key={i}>
                   <FlipCard {...member} role={member.post} disableFlip={section.disableFlip} />

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Calendar, ShieldAlert, LayoutDashboard, LogOut, Loader2 } from "lucide-react";
+import { Calendar, ShieldAlert, LayoutDashboard, LogOut, Loader2, Award } from "lucide-react";
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -119,6 +119,18 @@ export default function AdminDashboard() {
               <h3 className="text-lg font-bold text-white mb-1.5">Manage Events</h3>
               <p className="text-xs text-zinc-400 leading-relaxed">
                 Add new events, edit details, update Cloudinary posters, and toggle registration status.
+              </p>
+            </Link>
+
+            {/* Certificates Management Card */}
+            <Link 
+              href="/admin/certificates" 
+              className="group block bg-[#161922] border border-zinc-800 rounded-2xl p-6 hover:border-[#ff7900] hover:shadow-[0_0_25px_rgba(255,121,0,0.15)] transition-all duration-300 hover:-translate-y-1"
+            >
+              <Award className="w-8 h-8 text-[#ff7900] mb-4 group-hover:scale-110 transition-transform" />
+              <h3 className="text-lg font-bold text-white mb-1.5">Certificates</h3>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Toggle certificate visibility for users and distribute verification for past events.
               </p>
             </Link>
             
