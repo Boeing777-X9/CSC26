@@ -5,7 +5,14 @@ import { galleryImages } from '../data/mockData';
 import SectionHeader from './ui/SectionHeader';
 import { X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
 import LetterGlitch from './LetterGlitch';
-import DriftWall from './ui/DriftWall';
+import dynamic from 'next/dynamic';
+import TechText from './TechText';
+import DomeGallery from './ui/DomeGallery';
+import NovusSection from './NovusSection';
+import FlowingMenu from './FlowingMenu';
+import OptionWheel from './OptionWheel';
+
+const PixelBlast = dynamic(() => import('./PixelBlast'), { ssr: false });
 
 // Placeholder gradient images for gallery
 const getPlaceholderStyle = (index) => {
@@ -24,80 +31,255 @@ const getPlaceholderStyle = (index) => {
 };
 
 export default function Gallery() {
-  const [filter, setFilter] = useState('all');
+  const [menuYear, setMenuYear] = useState('all');
+  const [wheelEvent, setWheelEvent] = useState('hackathons');
   const [lightbox, setLightbox] = useState(null);
-  const categories = ['all', 'hackathons', 'workshops', 'ctf'];
+  const [openNovus, setOpenNovus] = useState(false);
+  const years = ['all', '2026', '2025', '2024'];
 
-  const filtered = filter === 'all' ? galleryImages : galleryImages.filter((img) => img.category === filter);
+  const filtered = menuYear === 'all' ? galleryImages : galleryImages.filter((img) => img.year === menuYear && img.category === wheelEvent);
+
+  // Themed FlowingMenu items matching the CyberSpace Club palette
+  const menuItems = [
+    {
+      text: 'All Moments',
+      count: galleryImages.length,
+      image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=600&auto=format&fit=crop',
+      active: menuYear === 'all',
+      onClick: () => setMenuYear('all')
+    },
+    {
+      text: 'NOVUS',
+      badge: 'Flagship',
+      image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=600&auto=format&fit=crop',
+      onClick: () => setOpenNovus(true)
+    },
+    {
+      text: '2026',
+      count: galleryImages.filter((img) => img.year === '2026').length,
+      image: 'https://images.unsplash.com/photo-1504639725590-34d0984388bd?q=80&w=600&auto=format&fit=crop',
+      active: menuYear === '2026',
+      onClick: () => setMenuYear('2026')
+    },
+    {
+      text: '2025',
+      count: galleryImages.filter((img) => img.year === '2025').length,
+      image: 'https://images.unsplash.com/photo-1515942400420-1b98b584d41a?q=80&w=600&auto=format&fit=crop',
+      active: menuYear === '2025',
+      onClick: () => setMenuYear('2025')
+    },
+    {
+      text: '2024',
+      count: galleryImages.filter((img) => img.year === '2024').length,
+      image: 'https://images.unsplash.com/photo-1514361892605-64d80dba26a4?q=80&w=600&auto=format&fit=crop',
+      active: menuYear === '2024',
+      onClick: () => setMenuYear('2024')
+    }
+  ];
 
   return (
-    <section id="gallery" className="relative bg-[var(--color-bg-deep)] overflow-hidden min-h-[calc(100vh-80px)]">
-      <div className="relative z-10 w-full max-w-[1800px] mx-auto px-5 sm:px-8 py-10 flex flex-col lg:flex-row gap-10 items-center h-full min-h-[calc(100vh-80px)]">
-        {/* Left Sidebar: Header and Filters */}
-        <div className="w-full lg:w-1/4 flex flex-col justify-center">
-          <SectionHeader
-            kicker="Scenes by the shore"
-            title="Gallery"
-            subtitle="moments captured"
-            description="Explore the spaces, details, and moments that define the Coast experience."
-            align="left"
-          />
+    <section id="gallery" className="relative bg-[var(--color-bg-deep)] overflow-hidden min-h-[calc(100vh-80px)] py-10 lg:py-14">
+      <div className="relative z-10 w-full max-w-[1800px] mx-auto px-5 sm:px-8 flex flex-col gap-10">
 
-          {/* Filters (Vertical) */}
-          <div className="flex flex-row lg:flex-col flex-wrap justify-start gap-3 mt-8">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setFilter(cat)}
-                className={`px-6 py-3 rounded-full lg:rounded-xl text-sm font-medium capitalize transition-all duration-300 cursor-pointer text-left ${
-                  filter === cat
-                    ? 'bg-[var(--color-primary)] text-white shadow-[0_0_15px_rgba(255,106,0,0.4)] border border-[var(--color-primary)]'
-                    : 'bg-black/40 backdrop-blur-md text-[var(--color-text-secondary)] border border-white/10 hover:border-[var(--color-border-orange)] hover:text-white'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+        {/* ── TOP: GALLERY HEADER (Minimalist PixelBlast strictly in blank space around GALLERY row) ── */}
+        <div className="w-full relative flex flex-col items-center text-center py-6 sm:py-8 overflow-hidden rounded-2xl">
+          {/* PixelBlast strictly confined to blank space around the gallery row */}
+          <div
+            className="absolute inset-0 w-full h-full pointer-events-auto z-0 overflow-hidden"
+            style={{
+              maskImage: 'radial-gradient(ellipse 65% 75% at 50% 50%, black 20%, rgba(0,0,0,0.5) 60%, transparent 100%)',
+              WebkitMaskImage: 'radial-gradient(ellipse 65% 75% at 50% 50%, black 20%, rgba(0,0,0,0.5) 60%, transparent 100%)'
+            }}
+          >
+            <PixelBlast
+              variant="circle"
+              pixelSize={5}
+              color="#FF8C32"
+              patternScale={2.5}
+              patternDensity={1.05}
+              pixelSizeJitter={0.3}
+              enableRipples={true}
+              rippleSpeed={0.35}
+              rippleThickness={0.1}
+              rippleIntensityScale={1.2}
+              liquid={false}
+              speed={0.3}
+              edgeFade={0.3}
+              transparent={true}
+              className=""
+              style={{ width: '100%', height: '100%' }}
+            />
+          </div>
+
+          <div className="relative z-10 flex flex-col items-center">
+            <span className="inline-block px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-[#FF8C32] bg-[#FF8C32]/10 border border-[#FF8C32]/30 mb-2 backdrop-blur-sm">
+              Moments Captured
+            </span>
+            <div className="w-full max-w-xl h-24 sm:h-28 lg:h-32 relative mx-auto">
+              <TechText
+                text="GALLERY"
+                fontWeight={800}
+                fontSize={110}
+                color="#ffffff"
+                accentColor="#FF6A00"
+                reveal="letter"
+                dashLength={4}
+                dashGap={2}
+                specks={15}
+              />
+            </div>
+            <p className="mt-2 text-sm sm:text-base text-zinc-400 max-w-xl mx-auto leading-relaxed">
+              Explore the spaces, details, and moments that define the Cyberspace experience.
+            </p>
           </div>
         </div>
 
-        {/* DriftWall Gallery */}
-        <div className="flex-1 w-full h-[600px] lg:h-[800px] relative">
-          <DriftWall
-            items={filtered.map((img, i) => {
-              const unsplashIds = [
-                '1550751827-4bd374c3f58b',
-                '1504639725590-34d0984388bd',
-                '1526374965328-7f61d4dc18c5',
-                '1514361892605-64d80dba26a4',
-                '1587899897328-98e8bf7b13d2',
-                '1515942400420-1b98b584d41a'
-              ];
-              return {
-                id: img.id,
-                image: `https://images.unsplash.com/photo-${unsplashIds[i % unsplashIds.length]}?q=80&w=600&auto=format&fit=crop`,
-                title: img.alt,
-                category: img.category
-              };
-            })}
-            columns={4}
-            tileWidth={280}
-            tileHeight={166}
-            gap={20}
-            tilt={16}
-            turn={-14}
-            perspective={2400}
-            depth={400}
-            speed={26}
-            direction="up"
-            variance={0.45}
-            parallax={0.7}
-            lift={56}
-            fade={0.15}
-            dim={0.55}
-            overlayColor="#b9672e"
-            onItemClick={(id) => setLightbox(id)}
+        {/* ── MAIN CONTENT (FlowingMenu + DriftWall Gallery) ── */}
+        <div className="w-full flex flex-col lg:flex-row gap-8 lg:gap-10 items-start">
+
+          {/* Left Sidebar: FlowingMenu with Japanese Chrysanthemum Design & Cyber Theme */}
+          <div className="w-full lg:w-[330px] xl:w-[360px] shrink-0 h-[380px] sm:h-[420px] lg:h-[480px] rounded-2xl overflow-hidden border border-[#FF6A00]/30 bg-[#08050c] shadow-[0_0_35px_rgba(255,106,0,0.15)] relative">
+            <FlowingMenu
+              items={menuItems}
+              speed={14}
+              textColor="#F7F5F0"
+              bgColor="transparent"
+              bgImage=""
+              marqueeBgColor="#FF6A00"
+              marqueeTextColor="#000000"
+              borderColor="rgba(255, 106, 0, 0.22)"
+            />
+          </div>
+
+          {/* Controller NovusSection for cinematic overlay & preloader */}
+          <NovusSection
+            isOpen={openNovus}
+            onClose={() => setOpenNovus(false)}
+            showCard={false}
           />
+
+          {/* Right Content: OptionWheel + DriftWall Gallery */}
+          <div className="flex-1 w-full h-[450px] sm:h-[420px] lg:h-[480px] relative flex flex-col sm:flex-row items-center overflow-hidden rounded-2xl bg-[#030105] border border-[#FF6A00]/10 shadow-inner">
+            
+            {/* The OptionWheel Panel (Slides in when category is selected) */}
+            <div 
+              className={`transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] flex items-center justify-center shrink-0 bg-gradient-to-b sm:bg-gradient-to-r from-[#FF6A00]/5 to-transparent border-b sm:border-b-0 sm:border-r border-[#FF6A00]/20 ${
+                menuYear !== 'all' ? 'h-[120px] w-full sm:h-full sm:w-[170px] lg:w-[220px] opacity-100 translate-y-0 sm:translate-x-0' : 'h-0 sm:h-full sm:w-0 opacity-0 -translate-y-10 sm:-translate-x-10 border-b-0 sm:border-r-0'
+              }`}
+            >
+              {menuYear !== 'all' && (
+                <div className="w-full h-full relative" style={{ minWidth: '120px' }}>
+                  <OptionWheel 
+                    items={['Hackathons', 'Workshops', 'CTF Competitions', 'Fun Events']} 
+                    defaultSelected={0} 
+                    textColor="rgba(255,255,255,0.25)" 
+                    activeColor="#FF6A00" 
+                    fontSize={1.2} 
+                    spacing={1.4}
+                    inset={20}
+                    curve={1.2}
+                    tilt={8}
+                    onChange={(index, item) => {
+                      const eventMap = {
+                        'Hackathons': 'hackathons',
+                        'Workshops': 'workshops',
+                        'CTF Competitions': 'ctf',
+                        'Fun Events': 'fun_events'
+                      };
+                      setWheelEvent(eventMap[item]);
+                    }}
+                  />
+                  
+                  {/* Subtle fade overlay for top/bottom of the wheel */}
+                  <div className="absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-[#030105] to-transparent pointer-events-none z-10" />
+                  <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-[#030105] to-transparent pointer-events-none z-10" />
+                </div>
+              )}
+            </div>
+
+            {/* The Content Panel */}
+            <div className="flex-1 h-full relative w-full overflow-hidden">
+              
+              {/* DriftWall (Only for 'all') */}
+              <div 
+                className={`absolute inset-0 w-full h-full transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                  menuYear === 'all' || menuYear === 'novus' ? 'opacity-100 scale-100 z-10 pointer-events-auto' : 'opacity-0 scale-[0.9] z-0 pointer-events-none'
+                }`}
+              >
+                <DomeGallery
+                  images={galleryImages.map((img, i) => {
+                    const unsplashIds = [
+                      '1550751827-4bd374c3f58b',
+                      '1504639725590-34d0984388bd',
+                      '1526374965328-7f61d4dc18c5',
+                      '1514361892605-64d80dba26a4'
+                    ];
+                    return {
+                      id: img.id,
+                      src: `https://images.unsplash.com/photo-${unsplashIds[i % unsplashIds.length]}?q=80&w=600&auto=format&fit=crop`,
+                      alt: img.alt
+                    };
+                  })}
+                  onImageOpen={(src, id) => setLightbox(Number(id))}
+                  overlayBlurColor="#030105"
+                  grayscale={false}
+                />
+              </div>
+
+              {/* Grid View (For filtered categories) */}
+              <div 
+                className={`absolute inset-0 w-full h-full p-4 sm:p-6 lg:p-8 overflow-y-auto custom-scrollbar transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                  menuYear !== 'all' && menuYear !== 'novus' ? 'opacity-100 translate-y-0 z-20 pointer-events-auto' : 'opacity-0 translate-y-8 z-0 pointer-events-none'
+                }`}
+              >
+                {filtered.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 lg:gap-6">
+                    {filtered.map((img, i) => {
+                      const unsplashIds = [
+                        '1550751827-4bd374c3f58b',
+                        '1504639725590-34d0984388bd',
+                        '1526374965328-7f61d4dc18c5',
+                        '1514361892605-64d80dba26a4'
+                      ];
+                      const imageUrl = `https://images.unsplash.com/photo-${unsplashIds[i % unsplashIds.length]}?q=80&w=800&auto=format&fit=crop`;
+                      return (
+                        <div
+                          key={img.id}
+                          onClick={() => setLightbox(img.id)}
+                          className="group relative cursor-pointer overflow-hidden rounded-xl border border-[#FF6A00]/10 hover:border-[#FF6A00]/50 transition-all duration-500 aspect-[16/10] bg-[#08050c]"
+                        >
+                          <div 
+                            className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105 opacity-60 group-hover:opacity-100"
+                            style={{ backgroundImage: `url(${imageUrl})` }}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#030105] via-[#030105]/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500" />
+                          <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-2 group-hover:translate-y-0 transition-transform duration-500 z-10">
+                            <div className="text-[#FF6A00] text-[0.65rem] font-black uppercase tracking-[0.1em] mb-1.5 flex items-center gap-2">
+                              {img.year} <span className="w-1 h-1 rounded-full bg-[#FF6A00]"></span> {img.category}
+                            </div>
+                            <div className="text-white font-medium text-sm sm:text-base drop-shadow-md leading-tight line-clamp-2">{img.alt}</div>
+                          </div>
+                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 z-20">
+                             <div className="w-12 h-12 rounded-full bg-[#FF6A00]/20 border border-[#FF6A00]/50 backdrop-blur-md flex items-center justify-center text-[#FF6A00] transform scale-75 group-hover:scale-100 transition-transform duration-500 shadow-[0_0_20px_rgba(255,106,0,0.3)]">
+                                <ZoomIn size={18} strokeWidth={2.5} />
+                             </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="w-full h-full flex flex-col items-center justify-center text-center">
+                    <div className="w-16 h-16 rounded-full border border-[#FF6A00]/20 bg-[#FF6A00]/5 flex items-center justify-center mb-4 text-[#FF6A00]">
+                       <X size={24} />
+                    </div>
+                    <p className="text-[#F7F5F0] font-medium text-lg">No records found for {wheelEvent}</p>
+                    <p className="text-zinc-500 text-sm mt-2">Try selecting a different event from the dial.</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -168,6 +350,14 @@ function GalleryItem({ image, index, onClick }) {
 function Lightbox({ images, currentId, onClose, onNav }) {
   const currentIndex = images.findIndex((img) => img.id === currentId);
 
+  const unsplashIds = [
+    '1550751827-4bd374c3f58b',
+    '1504639725590-34d0984388bd',
+    '1526374965328-7f61d4dc18c5',
+    '1514361892605-64d80dba26a4'
+  ];
+  const imageUrl = `https://images.unsplash.com/photo-${unsplashIds[currentIndex % unsplashIds.length]}?q=80&w=1200&auto=format&fit=crop`;
+
   useEffect(() => {
     const handleKey = (e) => {
       if (e.key === 'Escape') onClose();
@@ -192,12 +382,17 @@ function Lightbox({ images, currentId, onClose, onNav }) {
       </button>
 
       <div className="relative max-w-4xl w-full mx-8" onClick={(e) => e.stopPropagation()}>
+        {/* Grayish popout effect added here */}
         <div
-          className="w-full aspect-[16/10] rounded-xl overflow-hidden"
-          style={getPlaceholderStyle(currentIndex)}
+          className="w-full aspect-[16/10] rounded-xl overflow-hidden relative shadow-[0_0_40px_rgba(200,200,200,0.15)] ring-1 ring-white/20 transition-all duration-300 bg-[#0a0a0a]"
         >
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-white/40 text-sm">{images[currentIndex]?.alt}</span>
+          <img 
+            src={imageUrl} 
+            alt={images[currentIndex]?.alt || 'Gallery Image'}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/90 via-black/50 to-transparent">
+            <span className="text-white text-base md:text-lg font-medium drop-shadow-md">{images[currentIndex]?.alt}</span>
           </div>
         </div>
 

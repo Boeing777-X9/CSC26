@@ -89,15 +89,21 @@ export const menuCategories = [
 ];
 
 export const galleryImages = [
-  { id: 1, category: "hackathons", alt: "Late night coding at the annual hackathon" },
-  { id: 2, category: "workshops", alt: "Cybersecurity awareness session" },
-  { id: 3, category: "ctf", alt: "Team competing in an international CTF" },
-  { id: 4, category: "hackathons", alt: "Brainstorming architecture designs" },
-  { id: 5, category: "workshops", alt: "Hands-on penetration testing lab" },
-  { id: 6, category: "ctf", alt: "Capturing the final flag" },
-  { id: 7, category: "hackathons", alt: "Project presentation and judging" },
-  { id: 8, category: "workshops", alt: "Guest speaker from the industry" },
-  { id: 9, category: "ctf", alt: "Analyzing packet captures in Wireshark" },
+  { id: 1, category: "hackathons", year: "2026", alt: "Late night coding at the annual hackathon" },
+  { id: 2, category: "workshops", year: "2026", alt: "Cybersecurity awareness session" },
+  { id: 3, category: "ctf", year: "2026", alt: "Team competing in an international CTF" },
+  { id: 4, category: "hackathons", year: "2025", alt: "Brainstorming architecture designs" },
+  { id: 5, category: "workshops", year: "2025", alt: "Hands-on penetration testing lab" },
+  { id: 6, category: "ctf", year: "2025", alt: "Capturing the final flag" },
+  { id: 7, category: "hackathons", year: "2024", alt: "Project presentation and judging" },
+  { id: 8, category: "workshops", year: "2024", alt: "Guest speaker from the industry" },
+  { id: 9, category: "ctf", year: "2024", alt: "Analyzing packet captures in Wireshark" },
+  { id: 10, category: "hackathons", year: "2026", alt: "Brainstorming architecture designs" },
+  { id: 11, category: "ctf", year: "2026", alt: "Team competing in an international CTF" },
+  { id: 12, category: "workshops", year: "2026", alt: "Hands-on penetration testing lab" },
+  { id: 13, category: "fun_events", year: "2026", alt: "Club bonding over pizza and games" },
+  { id: 14, category: "fun_events", year: "2025", alt: "Annual trip and bonfire" },
+  { id: 15, category: "fun_events", year: "2024", alt: "Gaming night tournament finals" },
 ];
 
 export const eventsData = [
