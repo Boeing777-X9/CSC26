@@ -10,6 +10,12 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        cyber: ["Orbitron", "Space Grotesk", "sans-serif"],
+        space: ["Space Grotesk", "sans-serif"],
+        chakra: ["Chakra Petch", "sans-serif"],
+        mono: ["JetBrains Mono", "monospace"],
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",

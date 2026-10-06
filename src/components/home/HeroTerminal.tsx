@@ -11,7 +11,7 @@ export const HeroTerminal: React.FC = () => {
       output: (
         <div className="space-y-1 text-slate-300">
           <p className="text-[#ff8c32] font-bold">
-            [+] CYBERSPACE CLUB (CSC MUJ) TERMINAL v2.6.0
+            [+] CYBER SPACE CLUB (CSC MUJ) TERMINAL v2.6.0
           </p>
           <p className="text-slate-400">
             Type <span className="text-emerald-400 font-mono">help</span> to see available commands or click the buttons below.
@@ -37,7 +37,7 @@ export const HeroTerminal: React.FC = () => {
           <div className="space-y-1 text-xs sm:text-sm font-mono text-slate-300">
             <p className="text-[#ff8c32] font-bold mb-1">AVAILABLE COMMANDS:</p>
             <p>
-              <span className="text-emerald-400 font-bold">about</span> - Learn about CyberSpace Club MUJ
+              <span className="text-emerald-400 font-bold">about</span> - Learn about CYBER SPACE CLUB MUJ
             </p>
             <p>
               <span className="text-emerald-400 font-bold">events</span> - View 2026 upcoming events & CTF schedule
@@ -58,7 +58,7 @@ export const HeroTerminal: React.FC = () => {
       case "about":
         res = (
           <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
-            CyberSpace Club (CSC MUJ) is the flagship cybersecurity student body at Manipal University Jaipur. We specialize in ethical hacking, web penetration testing, reverse engineering, CTF competitions, and security research.
+            CYBER SPACE CLUB (CSC MUJ) is the flagship cybersecurity student body at Manipal University Jaipur. We specialize in ethical hacking, web penetration testing, reverse engineering, CTF competitions, and security research.
           </p>
         );
         break;
@@ -67,7 +67,7 @@ export const HeroTerminal: React.FC = () => {
         res = (
           <div className="space-y-1 text-xs sm:text-sm font-mono text-slate-300">
             <p className="text-[#ff8c32] font-bold">UPCOMING 2026 CALENDAR:</p>
-            <p>• [2026-03-15] Flagship CyberSpace CTF (Jeopardy Format)</p>
+            <p>• [2026-03-15] Flagship CYBER SPACE CLUB CTF (Jeopardy Format)</p>
             <p>• [2026-02-20] HackCyber 4.0 Hackathon</p>
             <p>• [2026-01-10] Zero-Day Bug Bounty Bootcamp</p>
           </div>

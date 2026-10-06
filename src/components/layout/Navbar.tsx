@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CscLogo } from "@/components/ui/CscLogo";
+import { ShinyButton } from "@/components/ui/shiny-button";
 import { Lock, Menu, X, BookOpen, Shield } from "lucide-react";
 
 export default function Navbar() {
@@ -25,7 +26,7 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-zinc-800/80 bg-black/85 backdrop-blur-md text-white">
+    <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-black/35 backdrop-blur-md text-white">
       {/* Top Subtle Orange Glow Accent Line */}
       <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#FF8C32]/60 to-transparent" />
 
@@ -44,7 +45,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-1.5 bg-zinc-950/80 p-1.5 rounded-full border border-zinc-800/80 backdrop-blur-md">
+        <nav className="hidden md:flex items-center gap-1.5 bg-black/30 p-1.5 rounded-full border border-white/10 backdrop-blur-md">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
@@ -54,7 +55,7 @@ export default function Navbar() {
                 className={`px-4 py-2 text-xs font-sans font-bold rounded-full transition-all duration-300 ${
                   isActive
                     ? "bg-[#FF8C32] text-black shadow-[0_0_15px_rgba(255,140,50,0.5)]"
-                    : "text-zinc-300 hover:text-white hover:bg-zinc-900"
+                    : "text-zinc-300 hover:text-white hover:bg-white/10"
                 }`}
               >
                 {link.label}
@@ -67,18 +68,17 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-3">
           <Link
             href="/admin"
-            className="inline-flex items-center gap-2 rounded-full border border-zinc-800 bg-zinc-900 px-4 py-2 font-sans text-xs font-semibold text-zinc-300 transition-all hover:border-[#FF8C32] hover:text-[#FF8C32]"
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/30 backdrop-blur-md px-4 py-2 font-sans text-xs font-semibold text-zinc-300 transition-all hover:border-[#FF8C32] hover:text-[#FF8C32]"
           >
             <Shield className="w-3.5 h-3.5 text-[#FF8C32]" />
             <span>Admin</span>
           </Link>
 
-          <Link
-            href="/auth"
-            className="inline-flex items-center gap-2 rounded-full bg-[#FF8C32] px-5 py-2 font-sans text-xs font-bold text-black transition-all hover:bg-white hover:shadow-[0_0_20px_rgba(255,140,50,0.6)]"
-          >
-            <Lock className="w-3.5 h-3.5" />
-            <span>Member Login</span>
+          <Link href="/auth">
+            <ShinyButton>
+              <Lock className="w-3.5 h-3.5" />
+              <span>Member Login</span>
+            </ShinyButton>
           </Link>
         </div>
 
@@ -86,7 +86,7 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden inline-flex items-center justify-center p-2.5 rounded-xl border border-zinc-800 bg-zinc-900 text-zinc-300 hover:text-white focus:outline-none"
+          className="md:hidden inline-flex items-center justify-center p-2.5 rounded-xl border border-white/10 bg-black/30 backdrop-blur-md text-zinc-300 hover:text-white focus:outline-none"
           aria-label="Toggle Navigation Menu"
         >
           {mobileMenuOpen ? <X className="w-6 h-6 text-[#FF8C32]" /> : <Menu className="w-6 h-6 text-[#FF8C32]" />}
@@ -95,7 +95,7 @@ export default function Navbar() {
 
       {/* Mobile Navigation Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-zinc-800 bg-black/95 px-6 pt-4 pb-6 backdrop-blur-2xl">
+        <div className="md:hidden border-b border-white/10 bg-black/40 px-6 pt-4 pb-6 backdrop-blur-2xl">
           <div className="flex flex-col space-y-3">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
@@ -127,10 +127,12 @@ export default function Navbar() {
               <Link
                 href="/auth"
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#FF8C32] px-4 py-3 font-sans text-sm font-bold text-black"
+                className="w-full"
               >
-                <Lock className="w-4 h-4" />
-                <span>Member Login</span>
+                <ShinyButton className="w-full py-3 text-sm">
+                  <Lock className="w-4 h-4" />
+                  <span>Member Login</span>
+                </ShinyButton>
               </Link>
             </div>
           </div>
