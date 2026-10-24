@@ -9,11 +9,15 @@ import { SpiralAnimation } from "@/components/ui/spiral-animation";
 interface LoginTransitionProps {
   children: React.ReactNode;
   className?: string;
+  href?: string;
+  onClick?: () => void;
 }
 
 export const LoginTransition: React.FC<LoginTransitionProps> = ({
   children,
   className = "",
+  href = "/auth",
+  onClick,
 }) => {
   const router = useRouter();
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -21,19 +25,20 @@ export const LoginTransition: React.FC<LoginTransitionProps> = ({
 
   useEffect(() => {
     setMounted(true);
-    router.prefetch("/auth");
-  }, [router]);
+    router.prefetch(href);
+  }, [router, href]);
 
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault();
       if (isTransitioning) return;
 
+      onClick?.();
       setIsTransitioning(true);
 
-      // Route to /auth as stars flow and expand across the full screen
+      // Route to destination as stars flow and expand across the full screen
       setTimeout(() => {
-        router.push("/auth");
+        router.push(href);
       }, 2100);
 
       // Fade out canvas overlay as stars complete their wipe sequence
@@ -41,7 +46,7 @@ export const LoginTransition: React.FC<LoginTransitionProps> = ({
         setIsTransitioning(false);
       }, 2900);
     },
-    [router, isTransitioning]
+    [router, isTransitioning, href, onClick]
   );
 
   const overlayContent = (

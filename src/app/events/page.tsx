@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
 import { lookupCertificate, VerifiedCertificate } from "@/lib/data/certificates";
-import { CanvasText } from "@/components/ui/canvas-text";
+import DrawLineText from "@/components/ui/draw-line-text";
 import CurvedTextLoop from "@/components/ui/curved-text-loop";
 import SpotlightCard from "@/components/ui/spotlight-card";
 import { 
@@ -66,23 +66,6 @@ export default function EventsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedEventForCertificate, setSelectedEventForCertificate] = useState<EventItem | null>(null);
 
-  const [headingFontSize, setHeadingFontSize] = useState(56);
-  
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 640) {
-        setHeadingFontSize(32);
-      } else if (window.innerWidth < 1024) {
-        setHeadingFontSize(48);
-      } else {
-        setHeadingFontSize(60);
-      }
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   const [events, setEvents] = useState<EventItem[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -109,8 +92,15 @@ export default function EventsPage() {
             const isFuture = eventTime > Date.now();
             
             let status: "Upcoming" | "Ongoing" | "Completed" = "Completed";
-            if (item.registration_live) status = "Ongoing";
-            else if (isFuture) status = "Upcoming";
+            if (item.status === "Completed") {
+              status = "Completed";
+            } else if (item.status === "Ongoing" || item.registration_live) {
+              status = "Ongoing";
+            } else if (item.status === "Upcoming" || isFuture) {
+              status = "Upcoming";
+            } else {
+              status = "Completed";
+            }
 
             return {
               id: item.id,
@@ -159,10 +149,19 @@ export default function EventsPage() {
   }, [events, selectedYear, searchQuery]);
 
   const upcomingEvents = useMemo(() => {
-    return events.filter(
-      (e) => e.status === "Upcoming" || e.status === "Ongoing" || e.year === "2026"
-    );
-  }, [events]);
+    return events.filter((e) => {
+      const isUpcomingOrOngoing = e.status === "Upcoming" || e.status === "Ongoing";
+      if (!isUpcomingOrOngoing) return false;
+
+      const matchesSearch = !searchQuery ||
+        (e.title && e.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (e.description && e.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (e.category && e.category.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (e.tags && e.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase())));
+
+      return matchesSearch;
+    });
+  }, [events, searchQuery]);
 
   const availableYears = useMemo(() => {
     const ySet = new Set<string>();
@@ -226,18 +225,49 @@ export default function EventsPage() {
         
         <div className="text-center max-w-4xl mx-auto flex flex-col items-center justify-center">
           <div className="w-full flex items-center justify-center min-h-[90px] sm:min-h-[120px]">
-            <CanvasText 
+            <DrawLineText 
               text="Events & Certificates"
-              fontSize={headingFontSize}
-              fontWeight={900}
-              color="#ffffff"
-              density={2}
-              scatter={40}
-              loadDuration={0.8}
-              morphDuration={1.2}
-              magnetic={0.35}
-              className="h-[90px] sm:h-[120px] w-full"
+              color="#ff7900"
+              className="mx-auto"
             />
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-gradient-to-r from-white/[0.08] via-white/[0.04] to-white/[0.08] p-2 sm:p-2.5 px-4 sm:px-5 rounded-3xl sm:rounded-full border border-white/15 hover:border-white/25 backdrop-blur-2xl my-4 shadow-[0_8px_32px_0_rgba(0,0,0,0.6),inset_0_1px_1px_0_rgba(255,255,255,0.25)] transition-all duration-500">
+          <div className="flex items-center gap-2 overflow-x-auto sm:overflow-visible w-full sm:w-auto py-1 sm:py-0 no-scrollbar">
+            {availableYears.map((year) => (
+              <button
+                key={year}
+                onClick={() => setSelectedYear(year)}
+                className={`px-5 py-2 rounded-full text-xs font-bold font-mono transition-all duration-200 cursor-pointer whitespace-nowrap ${
+                  selectedYear === year
+                    ? "bg-gradient-to-r from-[#ff7900] via-[#ff8c1a] to-[#ffa022] text-black shadow-[0_0_20px_rgba(255,121,0,0.6),inset_0_1px_2px_rgba(255,255,255,0.6)]"
+                    : "bg-white/[0.05] hover:bg-white/[0.14] text-slate-300 hover:text-white border border-white/10 hover:border-white/30 backdrop-blur-md shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)]"
+                }`}
+              >
+                {year === "All" ? "All Events" : `${year} Events`}
+              </button>
+            ))}
+          </div>
+
+          <div className="relative w-full sm:w-80">
+            <Search className="w-4 h-4 absolute left-3.5 top-2.5 text-[#ff7900] drop-shadow-[0_0_8px_rgba(255,121,0,0.7)] pointer-events-none" />
+            <input
+              type="text"
+              placeholder="Search events by title, tag, venue..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-9 py-2 bg-black/50 border border-white/15 focus:border-[#ff7900] rounded-full text-xs text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#ff7900]/40 backdrop-blur-xl shadow-[inset_0_2px_4px_rgba(0,0,0,0.7)] transition-all font-sans"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-3 top-2 p-0.5 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                title="Clear search"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
           </div>
         </div>
 
@@ -297,44 +327,6 @@ export default function EventsPage() {
               ))}
             </div>
           )}
-        </div>
-
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#161922]/80 p-3 rounded-2xl border border-slate-800 backdrop-blur-md">
-          <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0">
-            {availableYears.map((year) => (
-              <button
-                key={year}
-                onClick={() => setSelectedYear(year)}
-                className={`px-5 py-2 rounded-xl text-xs font-bold font-mono transition-all cursor-pointer whitespace-nowrap ${
-                  selectedYear === year
-                    ? "bg-[#ff7900] text-black shadow-[0_0_15px_rgba(255,121,0,0.4)]"
-                    : "bg-black/40 text-slate-400 border border-slate-800 hover:text-white hover:border-slate-700"
-                }`}
-              >
-                {year === "All" ? "All Events" : `${year} Events`}
-              </button>
-            ))}
-          </div>
-
-          <div className="relative w-full sm:w-80">
-            <Search className="w-4 h-4 absolute left-3.5 top-3 text-[#ff7900] pointer-events-none" />
-            <input
-              type="text"
-              placeholder="Search events by title, tag, venue..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-9 py-2.5 bg-black/70 border border-slate-800 focus:border-[#ff7900] rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-[#ff7900]/40 transition-all font-sans"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-2.5 p-0.5 rounded-full text-slate-400 hover:text-white hover:bg-zinc-800 transition-colors"
-                title="Clear search"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            )}
-          </div>
         </div>
 
         {loading ? (

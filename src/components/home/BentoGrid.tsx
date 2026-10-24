@@ -1,190 +1,277 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
+import Link from "next/link";
 import { SpotlightCard } from "@/components/ui/Spotlight";
-import { Button } from "@/components/ui/button";
 import {
-  Shield,
-  Terminal,
-  Lock,
-  Award,
-  KeyRound,
-  Zap,
-  Globe,
+  Trophy,
+  Swords,
+  Laptop,
+  Mic,
+  Briefcase,
+  Sparkles,
   CheckCircle2,
+  Target,
+  Coins,
   ArrowRight,
-  Code2,
-  RefreshCw,
 } from "lucide-react";
 
 export const BentoGrid: React.FC = () => {
-  // Cipher Widget Interactive State
-  const [encryptedText, setEncryptedText] = useState("PLOIENCRC CLHO (PFD ZHM)");
-  const [decrypted, setDecrypted] = useState(false);
-
-  const handleDecrypt = () => {
-    setEncryptedText("CYBER SPACE CLUB (CSC MUJ)");
-    setDecrypted(true);
-  };
-
   return (
-    <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#161922] border border-[#ff8c32]/40 text-[#ff8c32] text-xs font-mono font-bold uppercase tracking-widest">
-          <Zap className="w-4 h-4" />
-          <span>CYBER ARCHITECTURE & CAPABILITIES</span>
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#161922] border border-[#ff7900]/40 text-[#ff7900] text-xs font-mono font-bold uppercase tracking-widest">
+          <Sparkles className="w-4 h-4 text-[#ff7900]" />
+          <span>WHAT WE OFFER</span>
         </div>
-        <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-          Built for Security Engineers
+        <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+          Real Opportunities. <span className="text-[#ff7900]">Real Impact.</span>
         </h2>
-        <p className="text-slate-400 text-base">
-          Discover why CYBER SPACE CLUB is the leading technical organization at Manipal University Jaipur.
+        <p className="text-zinc-400 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+          From ₹1,00,000+ prize pools and high-stakes CTFs to hands-on workshops, keynotes with industry giants, and career-launching internships.
         </p>
       </div>
 
       {/* Bento Grid Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {/* Large Feature Card 1: Interactive Cipher Decrypter */}
-        <SpotlightCard className="md:col-span-2 p-6 sm:p-8 flex flex-col justify-between">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Card 1: 🏆 ₹1,00,000+ Prize Pools (Col span 2) */}
+        <SpotlightCard className="md:col-span-2 lg:col-span-2 p-6 sm:p-8 flex flex-col justify-between group">
           <div>
-            <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-5">
-              <span className="text-[#ff8c32] text-xs font-mono font-bold tracking-widest uppercase flex items-center gap-2">
-                <KeyRound className="w-4 h-4" />
-                CRYPTOGRAPHY LAB WIDGET
+            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-5">
+              <span className="text-[#ff7900] text-xs font-mono font-bold tracking-widest uppercase flex items-center gap-2">
+                <Trophy className="w-4 h-4 text-[#ff7900]" />
+                FLAGSHIP INCENTIVES
               </span>
-              <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-[#ff8c32]/15 text-[#ff8c32]">
-                INTERACTIVE
+              <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-[#ff7900]/15 text-[#ff7900] border border-[#ff7900]/30">
+                ANNUAL REWARDS
               </span>
             </div>
 
-            <h3 className="text-2xl font-bold text-white mb-2">
-              Cipher Systems & Cryptanalysis
+            <div className="space-y-2 mb-5">
+              <div className="flex items-baseline gap-2.5">
+                <span className="text-3xl sm:text-5xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-[#ff7900] to-[#ff9e3b] font-mono">
+                  ₹1,00,000+
+                </span>
+                <span className="text-xs sm:text-sm font-mono font-semibold text-zinc-400 uppercase tracking-wider">
+                  Prize Pools
+                </span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                Cash Prizes, Hackathons & Bounties
+              </h3>
+              <p className="text-zinc-400 text-sm leading-relaxed">
+                Substantial cash prize pools, bug bounties, and tech rewards distributed across club-hosted hackathons, campus CTF tournaments, and vulnerability hunts throughout the year.
+              </p>
+            </div>
+
+            {/* Breakdown Chips */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 font-mono text-xs">
+              <div className="p-3 rounded-xl bg-black/40 border border-white/10 flex flex-col justify-between">
+                <span className="text-zinc-400 text-[11px]">Flagship CTF</span>
+                <span className="text-[#ff7900] font-bold text-sm mt-1">₹50,000+</span>
+              </div>
+              <div className="p-3 rounded-xl bg-black/40 border border-white/10 flex flex-col justify-between">
+                <span className="text-zinc-400 text-[11px]">Hackathons</span>
+                <span className="text-white font-bold text-sm mt-1">₹35,000+</span>
+              </div>
+              <div className="p-3 rounded-xl bg-black/40 border border-white/10 flex flex-col justify-between">
+                <span className="text-zinc-400 text-[11px]">Bounties & Mini-CTF</span>
+                <span className="text-amber-300 font-bold text-sm mt-1">₹15,000+</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-zinc-500 font-mono">
+            <span className="flex items-center gap-1.5 text-zinc-400">
+              <Coins className="w-3.5 h-3.5 text-[#ff7900]" />
+              Open to all MUJ students & participants
+            </span>
+            <span className="text-[#ff7900] font-semibold">Real Stakes</span>
+          </div>
+        </SpotlightCard>
+
+        {/* Card 2: ⚔️ CTFs, ethical hacking & competitions (Col span 1) */}
+        <SpotlightCard className="md:col-span-1 lg:col-span-1 p-6 flex flex-col justify-between group">
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-3 rounded-xl bg-[#ff7900]/10 border border-[#ff7900]/30 text-[#ff7900]">
+                <Swords className="w-5 h-5" />
+              </div>
+              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-white/5 border border-white/10 text-zinc-300">
+                ARENA
+              </span>
+            </div>
+
+            <h3 className="text-xl font-bold text-white tracking-tight">
+              CTFs & Ethical Hacking
             </h3>
-            <p className="text-slate-400 text-sm leading-relaxed mb-6">
-              Learn symmetric/asymmetric encryption, break ciphers, and implement secure hashes. Test our live decryption widget below:
+            <p className="text-zinc-400 text-sm mt-2 leading-relaxed">
+              High-intensity Jeopardy and Attack-Defense CTF battles, penetration testing challenges, and ethical hacking tournaments.
             </p>
+          </div>
 
-            {/* Interactive Decrypter Box */}
-            <div className="p-4 rounded-xl bg-[#08090e] border border-slate-800 space-y-3 font-mono text-xs">
-              <div className="flex items-center justify-between text-slate-400">
-                <span>ENCRYPTED CIPHERTEXT:</span>
-                <span className="text-[#ff8c32]">{decrypted ? "STATUS: DECRYPTED" : "ALGORITHM: ROT13"}</span>
+          <div className="mt-6 space-y-3">
+            <div className="flex flex-wrap gap-1.5 font-mono text-[10px]">
+              <span className="px-2 py-1 rounded-md bg-[#ff7900]/10 border border-[#ff7900]/20 text-[#ff7900]">
+                PWN / BINARY
+              </span>
+              <span className="px-2 py-1 rounded-md bg-white/5 border border-white/10 text-zinc-300">
+                WEB EXPLOIT
+              </span>
+              <span className="px-2 py-1 rounded-md bg-white/5 border border-white/10 text-zinc-300">
+                REVERSE ENG
+              </span>
+              <span className="px-2 py-1 rounded-md bg-white/5 border border-white/10 text-zinc-300">
+                CRYPTO
+              </span>
+            </div>
+
+            <div className="p-2.5 rounded-xl bg-black/40 border border-white/10 flex items-center justify-between text-xs font-mono">
+              <span className="text-zinc-400 flex items-center gap-1.5">
+                <Target className="w-3.5 h-3.5 text-[#ff7900]" />
+                National Rank
+              </span>
+              <span className="text-emerald-400 font-bold">Top 10 Tier</span>
+            </div>
+          </div>
+        </SpotlightCard>
+
+        {/* Card 3: 💻 Hackathons, workshops & hands-on learning (Col span 1) */}
+        <SpotlightCard className="md:col-span-1 lg:col-span-1 p-6 flex flex-col justify-between group">
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-3 rounded-xl bg-sky-500/10 border border-sky-500/30 text-sky-400">
+                <Laptop className="w-5 h-5" />
               </div>
-              <div className="p-3 rounded-lg bg-[#11131c] text-white font-bold text-sm tracking-widest border border-slate-700/60">
-                {encryptedText}
+              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-sky-500/10 border border-sky-500/20 text-sky-400">
+                PRACTICAL
+              </span>
+            </div>
+
+            <h3 className="text-xl font-bold text-white tracking-tight">
+              Hackathons & Workshops
+            </h3>
+            <p className="text-zinc-400 text-sm mt-2 leading-relaxed">
+              Intensive developer hackathons, zero-fluff live security labs, and hands-on skill development from beginner to advanced.
+            </p>
+          </div>
+
+          <div className="mt-6 space-y-2">
+            <div className="p-3 rounded-xl bg-black/40 border border-white/10 font-mono text-[11px] space-y-1.5">
+              <div className="text-zinc-500 flex items-center justify-between">
+                <span>$ csc lab --init</span>
+                <span className="text-emerald-400">ONLINE</span>
               </div>
-              <button
-                onClick={handleDecrypt}
-                disabled={decrypted}
-                className="w-full py-2.5 rounded-lg bg-[#ff8c32] text-black font-bold flex items-center justify-center gap-2 hover:brightness-110 disabled:opacity-50 transition-all"
-              >
-                <RefreshCw className={`w-4 h-4 ${decrypted ? "" : "animate-spin"}`} />
-                <span>{decrypted ? "Decryption Complete!" : "Execute Decryption Key"}</span>
-              </button>
+              <div className="text-zinc-300 text-[10px] leading-tight">
+                &gt; Loaded: Burp Suite, Wireshark, Ghidra &amp; Docker
+              </div>
             </div>
-          </div>
 
-          <div className="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-500">
-            <span>Module: Crypto & RSA Labs</span>
-            <span className="text-[#ff8c32]">CSC MUJ Security</span>
-          </div>
-        </SpotlightCard>
-
-        {/* Feature Card 2: CTF Scoreboard & Glory */}
-        <SpotlightCard className="p-6 flex flex-col justify-between">
-          <div>
-            <div className="p-3 rounded-xl bg-[#ff8c32]/10 text-[#ff8c32] w-fit mb-4">
-              <Award className="w-6 h-6" />
-            </div>
-            <h3 className="text-xl font-bold text-white">40+ CTF Trophies</h3>
-            <p className="text-slate-400 text-sm mt-2 leading-relaxed">
-              Consistently ranking in top university leaderboards across national Jeopardy & Attack-Defense CTF tournaments.
-            </p>
-          </div>
-
-          <div className="mt-6 p-3 rounded-xl bg-[#08090e] border border-slate-800 space-y-2 text-xs font-mono">
-            <div className="flex items-center justify-between text-slate-300">
-              <span>#1 MUJ League</span>
-              <span className="text-emerald-400 font-bold">4,850 PTS</span>
-            </div>
-            <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
-              <div className="w-[88%] h-full bg-gradient-to-r from-[#ff8c32] to-emerald-400"></div>
+            <div className="flex items-center gap-2 text-xs text-sky-400 font-mono font-bold pt-1">
+              <CheckCircle2 className="w-4 h-4 text-sky-400" />
+              <span>100% Practical &amp; Project-Driven</span>
             </div>
           </div>
         </SpotlightCard>
 
-        {/* Feature Card 3: Hands-on Bootcamps */}
-        <SpotlightCard className="p-6 flex flex-col justify-between">
+        {/* Card 4: 🎤 Industry & alumni talks from Cisco, Google, Adobe, DRDO & more (Col span 2) */}
+        <SpotlightCard className="md:col-span-2 lg:col-span-2 p-6 sm:p-8 flex flex-col justify-between group">
           <div>
-            <div className="p-3 rounded-xl bg-sky-500/10 text-sky-400 w-fit mb-4">
-              <Terminal className="w-6 h-6" />
+            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-5">
+              <span className="text-[#ff7900] text-xs font-mono font-bold tracking-widest uppercase flex items-center gap-2">
+                <Mic className="w-4 h-4 text-[#ff7900]" />
+                KEYNOTES &amp; FIRESIDE CHATS
+              </span>
+              <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-white/5 border border-white/10 text-zinc-300">
+                ELITE SESSIONS
+              </span>
             </div>
-            <h3 className="text-xl font-bold text-white">30+ Bootcamps</h3>
-            <p className="text-slate-400 text-sm mt-2 leading-relaxed">
-              Hands-on lab sessions in Linux command line, Wireshark packet capture, Burp Suite API testing, and Ghidra disassembly.
-            </p>
+
+            <div className="space-y-2 mb-5">
+              <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                Industry &amp; Alumni Talks
+              </h3>
+              <p className="text-zinc-400 text-sm leading-relaxed">
+                Gain direct insights, defense cyber briefings, and technical mentorship from senior security engineers and accomplished alumni at world-leading organizations.
+              </p>
+            </div>
+
+            {/* Featured Organizations */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 font-mono text-xs">
+              <div className="p-3 rounded-xl bg-black/40 border border-white/10 hover:border-[#ff7900]/50 transition-colors flex items-center gap-2.5">
+                <div className="w-2 h-2 rounded-full bg-[#ff7900]" />
+                <span className="font-bold text-white">Cisco</span>
+              </div>
+              <div className="p-3 rounded-xl bg-black/40 border border-white/10 hover:border-blue-400/50 transition-colors flex items-center gap-2.5">
+                <div className="w-2 h-2 rounded-full bg-blue-400" />
+                <span className="font-bold text-white">Google</span>
+              </div>
+              <div className="p-3 rounded-xl bg-black/40 border border-white/10 hover:border-red-400/50 transition-colors flex items-center gap-2.5">
+                <div className="w-2 h-2 rounded-full bg-red-400" />
+                <span className="font-bold text-white">Adobe</span>
+              </div>
+              <div className="p-3 rounded-xl bg-black/40 border border-white/10 hover:border-emerald-400/50 transition-colors flex items-center gap-2.5">
+                <div className="w-2 h-2 rounded-full bg-emerald-400" />
+                <span className="font-bold text-white">DRDO</span>
+              </div>
+            </div>
           </div>
 
-          <div className="mt-6 flex items-center gap-2 text-xs text-sky-400 font-mono font-bold">
-            <CheckCircle2 className="w-4 h-4" />
-            <span>100% Practical Exercises</span>
+          <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-zinc-500 font-mono">
+            <span className="text-zinc-400">Closed-door AMAs, career roadmaps &amp; live masterclasses</span>
+            <span className="text-[#ff7900] font-semibold">&amp; More</span>
           </div>
         </SpotlightCard>
 
-        {/* Feature Card 4: Verified Event Certificate System */}
-        <SpotlightCard className="md:col-span-2 lg:col-span-2 p-6 sm:p-8 flex flex-col justify-between">
+        {/* Card 5: 💼 Internship & interview opportunities (Col span 2) */}
+        <SpotlightCard className="md:col-span-2 lg:col-span-2 p-6 sm:p-8 flex flex-col justify-between group">
           <div>
-            <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
+            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-5">
               <span className="text-emerald-400 text-xs font-mono font-bold tracking-widest uppercase flex items-center gap-2">
-                <Shield className="w-4 h-4" />
-                VERIFIED CREDENTIALS
+                <Briefcase className="w-4 h-4 text-emerald-400" />
+                CAREER LAUNCHPAD
               </span>
-              <span className="text-xs text-slate-400 font-mono">YEARS: 2026 / 2025 / 2024</span>
+              <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-emerald-400/10 border border-emerald-400/20 text-emerald-400">
+                HIRING PIPELINES
+              </span>
             </div>
 
-            <h3 className="text-2xl font-bold text-white mb-2">
-              Official Dynamic Event Certificates
-            </h3>
-            <p className="text-slate-400 text-sm leading-relaxed">
-              Every CSC MUJ workshop, CTF, and hackathon awards an official verified certificate of completion. Members can access their certificates anytime with custom student credentials.
-            </p>
-          </div>
-
-          <div className="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between">
-            <span className="text-xs text-slate-400">Select year 2026, 2025 or 2024 on Events page</span>
-            <a href="/events">
-              <Button variant="cyber" size="sm" className="gap-2">
-                <span>Try Certificate Portal</span>
-                <ArrowRight className="w-4 h-4 text-[#ff8c32]" />
-              </Button>
-            </a>
-          </div>
-        </SpotlightCard>
-
-        {/* Feature Card 5: Student Community */}
-        <SpotlightCard className="md:col-span-1 lg:col-span-2 p-6 sm:p-8 flex flex-col justify-between">
-          <div>
-            <div className="p-3 rounded-xl bg-purple-500/10 text-purple-400 w-fit mb-4">
-              <Globe className="w-6 h-6" />
+            <div className="space-y-2 mb-5">
+              <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                Internship &amp; Interview Opportunities
+              </h3>
+              <p className="text-zinc-400 text-sm leading-relaxed">
+                Connect directly with cyber firms and tech companies through alumni referrals, mock technical interview sessions, resume reviews, and verified skill badges.
+              </p>
             </div>
-            <h3 className="text-xl font-bold text-white">500+ Active Members</h3>
-            <p className="text-slate-400 text-sm mt-2 leading-relaxed">
-              A thriving ecosystem of developers, security researchers, and hackers collaborating on real-world projects and security advisories.
-            </p>
+
+            {/* Opportunities Breakdown */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 font-mono text-xs">
+              <div className="p-3 rounded-xl bg-black/40 border border-white/10 flex items-center gap-2">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <span className="text-zinc-200 text-xs">Mock Tech Rounds</span>
+              </div>
+              <div className="p-3 rounded-xl bg-black/40 border border-white/10 flex items-center gap-2">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <span className="text-zinc-200 text-xs">Alumni Fast-Track</span>
+              </div>
+              <div className="p-3 rounded-xl bg-black/40 border border-white/10 flex items-center gap-2">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <span className="text-zinc-200 text-xs">CV &amp; Portfolio Roast</span>
+              </div>
+            </div>
           </div>
 
-          <div className="mt-6 flex items-center gap-3">
-            <div className="flex -space-x-2">
-              {["R", "A", "S", "V"].map((initial, i) => (
-                <div
-                  key={i}
-                  className="w-8 h-8 rounded-full bg-[#1e2330] border-2 border-[#0d0e15] text-white text-xs font-bold flex items-center justify-center"
-                >
-                  {initial}
-                </div>
-              ))}
-            </div>
-            <span className="text-xs font-mono text-slate-400">+500 more enrolled</span>
+          <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
+            <span className="text-xs text-zinc-400 font-mono">Accelerate your career in cyber security</span>
+            <Link
+              href="/events"
+              className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-[#ff7900] hover:text-white transition-colors"
+            >
+              <span>Explore Events</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
           </div>
         </SpotlightCard>
       </div>

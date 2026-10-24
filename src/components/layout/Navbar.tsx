@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CscLogo } from "@/components/ui/CscLogo";
 import { ShinyButton } from "@/components/ui/shiny-button";
+import LoginTransition from "@/components/auth/LoginTransition";
 import { Lock, Menu, X, BookOpen, Shield } from "lucide-react";
 
 export default function Navbar() {
@@ -33,15 +34,10 @@ export default function Navbar() {
       <div className="container mx-auto flex h-20 items-center justify-between px-4 sm:px-8">
         {/* Brand Logo & Name */}
         <Link href="/" className="flex items-center gap-3 group">
-          <CscLogo size={44} showText={false} />
-          <div className="flex flex-col">
-            <span className="font-sans font-extrabold text-lg tracking-wider text-white group-hover:text-[#FF8C32] transition-colors">
-              CYBER SPACE CLUB
-            </span>
-            <span className="font-sans text-[10px] font-bold text-[#FF8C32] tracking-widest uppercase">
-              MUJ CHAPTER
-            </span>
-          </div>
+          <CscLogo size={40} showText={false} />
+          <span className="font-sans font-extrabold text-base sm:text-lg tracking-wider text-white group-hover:text-[#FF8C32] transition-colors leading-none">
+            CYBER SPACE CLUB
+          </span>
         </Link>
 
         {/* Desktop Navigation Links */}
@@ -66,20 +62,19 @@ export default function Navbar() {
 
         {/* Right CTA Action Buttons */}
         <div className="hidden md:flex items-center gap-3">
-          <Link
-            href="/admin"
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/30 backdrop-blur-md px-4 py-2 font-sans text-xs font-semibold text-zinc-300 transition-all hover:border-[#FF8C32] hover:text-[#FF8C32]"
-          >
-            <Shield className="w-3.5 h-3.5 text-[#FF8C32]" />
-            <span>Admin</span>
-          </Link>
+          <LoginTransition href="/admin">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/30 backdrop-blur-md px-4 py-2 font-sans text-xs font-semibold text-zinc-300 transition-all hover:border-[#FF8C32] hover:text-[#FF8C32] cursor-pointer">
+              <Shield className="w-3.5 h-3.5 text-[#FF8C32]" />
+              <span>Admin</span>
+            </div>
+          </LoginTransition>
 
-          <Link href="/auth">
+          <LoginTransition href="/auth">
             <ShinyButton>
               <Lock className="w-3.5 h-3.5" />
               <span>Member Login</span>
             </ShinyButton>
-          </Link>
+          </LoginTransition>
         </div>
 
         {/* Mobile Hamburger Toggle Button */}
@@ -116,15 +111,18 @@ export default function Navbar() {
             })}
 
             <div className="pt-4 border-t border-zinc-800 flex flex-col gap-2">
-              <Link
+              <LoginTransition
                 href="/admin"
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 font-sans text-sm font-semibold text-zinc-200"
+                className="w-full"
               >
-                <Shield className="w-4 h-4 text-[#FF8C32]" />
-                <span>Admin Portal</span>
-              </Link>
-              <Link
+                <div className="flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 font-sans text-sm font-semibold text-zinc-200 cursor-pointer">
+                  <Shield className="w-4 h-4 text-[#FF8C32]" />
+                  <span>Admin Portal</span>
+                </div>
+              </LoginTransition>
+
+              <LoginTransition
                 href="/auth"
                 onClick={() => setMobileMenuOpen(false)}
                 className="w-full"
@@ -133,7 +131,7 @@ export default function Navbar() {
                   <Lock className="w-4 h-4" />
                   <span>Member Login</span>
                 </ShinyButton>
-              </Link>
+              </LoginTransition>
             </div>
           </div>
         </div>

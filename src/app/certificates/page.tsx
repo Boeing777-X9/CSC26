@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/client";
 import { useState, useEffect } from "react";
 import { Loader2, Download, Award } from "lucide-react";
+import DrawLineText from "@/components/ui/draw-line-text";
 
 type UserCertificate = {
   event_id: string;
@@ -60,10 +61,10 @@ export default function UserCertificatesPage() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] p-8 text-white">
       <div className="max-w-4xl mx-auto">
-        <div className="mb-10 text-center">
-          <Award className="w-12 h-12 text-[#ff7900] mx-auto mb-4" />
-          <h1 className="text-3xl font-bold mb-2">My Certificates</h1>
-          <p className="text-zinc-400">View and download your earned Cyberspace Club certificates.</p>
+        <div className="mb-10 text-center flex flex-col items-center">
+          <Award className="w-12 h-12 text-[#ff7900] mx-auto mb-3" />
+          <DrawLineText text="My Certificates" color="#ff7900" className="mx-auto max-w-xl" />
+          <p className="text-zinc-400 mt-2">View and download your earned Cyberspace Club certificates.</p>
         </div>
 
         {loading ? (

@@ -2,6 +2,7 @@
 
 import React from "react";
 import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
 
 const AnimatedShaderBackgroundCanvas = dynamic(
   () => import("@/components/ui/animated-shader-hero").then((m) => m.AnimatedShaderBackgroundCanvas),
@@ -9,6 +10,13 @@ const AnimatedShaderBackgroundCanvas = dynamic(
 );
 
 export default function GlobalShaderBackground() {
+  const pathname = usePathname();
+
+  // Avoid running duplicate background WebGL shaders on the home page
+  if (pathname === "/") {
+    return null;
+  }
+
   return (
     <div className="fixed inset-0 -z-10 h-screen w-screen pointer-events-auto overflow-hidden bg-black">
       {/* Real-time WebGL Animated Shader Canvas */}

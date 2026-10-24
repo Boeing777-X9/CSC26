@@ -370,7 +370,7 @@ export function applyPageCustomization(frame: HTMLIFrameElement | null, customiz
   frameDocument.head.append(style);
 
   for (const override of customization.inlineStyles ?? []) {
-    for (const element of frameDocument.querySelectorAll<HTMLElement>(override.selector)) {
+    for (const element of Array.from(frameDocument.querySelectorAll<HTMLElement>(override.selector))) {
       for (const [property, value] of Object.entries(override.styles)) element.style.setProperty(property, value);
     }
   }

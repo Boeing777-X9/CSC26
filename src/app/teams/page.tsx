@@ -3,7 +3,7 @@
 import React, { useState, useRef } from "react";
 import PixelTransition from "@/components/ui/PixelTransition";
 import "@/app/globals.css";
-import ParticleTextEffect from "@/components/ui/particle-text-effect";
+import { motion } from "framer-motion";
 
 /* ──────────────────────────────────────────────────
    TYPES & INTERFACES
@@ -62,13 +62,27 @@ const sanitizeUrl = (type: "linkedin" | "instagram" | "github", value?: string):
 };
 
 /* ──────────────────────────────────────────────────
-   REUSABLE SECTION HEADER WITH PARTICLE TEXT EFFECT
+   REUSABLE SECTION HEADER WITH SLOW & SMOOTH IN-VIEW ANIMATION
 ────────────────────────────────────────────────── */
 const SectionHeader = ({ title }: { title: string }) => (
-  <div className="relative mb-8 w-full flex flex-col items-center justify-center">
-    <ParticleTextEffect text={title} />
-    <div className="h-[2px] w-28 mx-auto -mt-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent rounded-full" />
-  </div>
+  <motion.div
+    initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
+    whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+    viewport={{ once: false, amount: 0.3, margin: "0px 0px -80px 0px" }}
+    transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+    className="relative mb-8 w-full flex flex-col items-center justify-center select-none"
+  >
+    <h2 className="font-cyber text-3xl sm:text-4xl md:text-5xl font-black uppercase text-center tracking-wider bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(255,140,50,0.4)] py-1">
+      {title}
+    </h2>
+    <motion.div
+      initial={{ scaleX: 0, opacity: 0 }}
+      whileInView={{ scaleX: 1, opacity: 1 }}
+      viewport={{ once: false, amount: 0.3, margin: "0px 0px -80px 0px" }}
+      transition={{ duration: 1.0, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+      className="h-[2px] w-32 mx-auto mt-2 bg-gradient-to-r from-transparent via-orange-500 to-transparent rounded-full origin-center"
+    />
+  </motion.div>
 );
 
 /* ──────────────────────────────────────────────────

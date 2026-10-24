@@ -4,13 +4,27 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 interface DrawLineTextProps {
+  text?: string;
   className?: string;
   color?: string;
+  strokeWidth?: number;
+  fontSize?: number | string;
+  viewBox?: string;
+  letterSpacing?: number | string;
+  preserveCase?: boolean;
+  as?: "h1" | "h2" | "h3" | "div";
 }
 
 export const DrawLineText: React.FC<DrawLineTextProps> = ({
+  text = "CYBER SPACE CLUB",
   className = "",
-  color = "#FF8C32",
+  color = "#ff7900",
+  strokeWidth = 3.5,
+  fontSize,
+  viewBox,
+  letterSpacing = "4",
+  preserveCase = false,
+  as: Component = "h1",
 }) => {
   const [mounted, setMounted] = useState(false);
 
@@ -18,14 +32,33 @@ export const DrawLineText: React.FC<DrawLineTextProps> = ({
     setMounted(true);
   }, []);
 
+  // Compute adaptive viewBox width and font size tailored to text length
+  const defaultViewBox =
+    viewBox ||
+    (text.length > 18
+      ? `0 0 ${Math.max(1220, Math.round(text.length * 56 + 50))} 160`
+      : "0 0 960 160");
+
+  const defaultFontSize = fontSize
+    ? typeof fontSize === "number"
+      ? `${fontSize}px`
+      : fontSize
+    : text.length > 20
+    ? "62px"
+    : text.length > 16
+    ? "68px"
+    : "74px";
+
+  const strokeDash = Math.max(1600, text.length * 110);
+
   return (
     <div className={`w-full max-w-full select-none ${className}`}>
       {/* Accessible Title */}
-      <h1 className="sr-only">CYBER SPACE CLUB</h1>
+      <Component className="sr-only">{text}</Component>
 
       {/* SVG Wordmark with clean stroke draw-line animation */}
       <svg
-        viewBox="0 0 960 160"
+        viewBox={defaultViewBox}
         className="w-full h-auto max-h-[140px] overflow-visible"
         aria-hidden="true"
       >
@@ -35,12 +68,16 @@ export const DrawLineText: React.FC<DrawLineTextProps> = ({
           textAnchor="middle"
           fill="transparent"
           stroke={color}
-          strokeWidth="3.5"
+          strokeWidth={strokeWidth}
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="font-cyber font-black uppercase text-[74px]"
-          letterSpacing="4"
-          initial={{ strokeDasharray: 1200, strokeDashoffset: 1200, fillOpacity: 0 }}
+          className={`font-cyber font-black ${preserveCase ? "" : "uppercase"}`}
+          letterSpacing={letterSpacing}
+          initial={{
+            strokeDasharray: strokeDash,
+            strokeDashoffset: strokeDash,
+            fillOpacity: 0,
+          }}
           animate={
             mounted
               ? {
@@ -62,11 +99,12 @@ export const DrawLineText: React.FC<DrawLineTextProps> = ({
           }}
           style={{
             fill: color,
+            fontSize: defaultFontSize,
             fontFamily: "'Orbitron', 'Chakra Petch', 'Space Grotesk', sans-serif",
             fontWeight: 900,
           }}
         >
-          CYBER SPACE CLUB
+          {text}
         </motion.text>
       </svg>
     </div>

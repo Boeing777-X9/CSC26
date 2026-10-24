@@ -13,7 +13,7 @@ const domainIcons: Record<string, React.ReactNode> = {
 
 export default function CyberDomains() {
   return (
-    <section className="relative z-10 w-full bg-black/40 border-t border-b border-white/10 py-20 px-6 sm:px-10 lg:px-20 backdrop-blur-md">
+    <section className="relative z-10 w-full bg-transparent py-20 px-6 sm:px-10 lg:px-20">
       {/* Stats Counter Row from Ojash */}
       <div className="mx-auto max-w-6xl grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
         {statsData.map((stat, i) => (

@@ -4,7 +4,7 @@ import BreathingText from "@/components/ui/breathing-text";
 
 export default function AboutUs() {
   return (
-    <section className="relative w-full bg-black/40 backdrop-blur-md py-24 text-white border-t border-white/10">
+    <section className="relative w-full bg-transparent py-24 text-white">
       <div className="mx-auto max-w-6xl px-6 lg:px-12">
         {/* Section Heading with BreathingText */}
         <div className="mb-16 text-center flex justify-center">
